@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>타이타닉 생존 데이터 히트맵 해석 보고서</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#0f1a30;
+      --card:#0f1f3a;
+      --text:#e7eefc;
+      --muted:#a9b7d3;
+      --line:rgba(255,255,255,.10);
+      --accent:#7aa2ff;
+      --accent2:#6ee7b7;
+      --warn:#fbbf24;
+      --danger:#fb7185;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, "Helvetica Neue", sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(122,162,255,.35), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(110,231,183,.22), transparent 55%),
+        radial-gradient(900px 600px at 50% 110%, rgba(251,191,36,.12), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    a{color:inherit}
+
+    .container{
+      width:min(1100px, calc(100% - 40px));
+      margin:0 auto;
+      padding:32px 0 56px;
+    }
+
+    header.hero{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:28px 26px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    header.hero:before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(800px 300px at 20% 0%, rgba(122,162,255,.22), transparent 60%);
+      pointer-events:none;
+    }
+
+    .title{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      position:relative;
+      z-index:1;
+    }
+    .title h1{
+      margin:0;
+      font-size: clamp(22px, 2.2vw, 32px);
+      letter-spacing:-0.02em;
+    }
+    .title .meta{
+      text-align:right;
+      color:var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .subtitle{
+      margin:10px 0 0;
+      color:var(--muted);
+      max-width:76ch;
+      position:relative;
+      z-index:1;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    @media (max-width: 920px){
+      .grid{grid-template-columns:1fr}
+      .title{flex-direction:column; align-items:flex-start}
+      .title .meta{text-align:left}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .card h2{
+      margin:0 0 10px;
+      font-size:18px;
+      letter-spacing:-0.01em;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--line);
+      color:var(--muted);
+      background:rgba(0,0,0,.12);
+    }
+    .dot{width:8px; height:8px; border-radius:50%; background:var(--accent)}
+    .dot.g{background:var(--accent2)}
+    .dot.y{background:var(--warn)}
+
+    .callout{
+      border-left:3px solid rgba(122,162,255,.9);
+      background: rgba(122,162,255,.10);
+      padding:12px 14px;
+      border-radius:12px;
+      color:var(--text);
+      margin:12px 0 0;
+    }
+
+    .callout strong{color:#ffffff}
+
+    .kpi{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+
+    @media (max-width: 680px){
+      .kpi{grid-template-columns:1fr}
+    }
+
+    .kpi .box{
+      background: rgba(0,0,0,.16);
+      border:1px solid var(--line);
+      border-radius:var(--radius2);
+      padding:12px;
+    }
+
+    .kpi .label{color:var(--muted); font-size:12px}
+    .kpi .value{font-size:20px; font-weight:700; margin-top:2px}
+    .kpi .hint{color:var(--muted); font-size:12px; margin-top:4px}
+
+    .section{
+      margin-top:18px;
+    }
+
+    .list{
+      margin:0;
+      padding-left:18px;
+      color:var(--text);
+    }
+    .list li{margin:6px 0}
+
+    .table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.14);
+      margin-top:10px;
+    }
+    .table th, .table td{
+      padding:10px 12px;
+      border-bottom:1px solid var(--line);
+      font-size:13px;
+      vertical-align:top;
+    }
+    .table th{color:var(--muted); font-weight:600; text-align:left}
+    .table tr:last-child td{border-bottom:none}
+
+    code, .mono{font-family:var(--mono)}
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:5px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.14);
+      color:var(--muted);
+      margin:4px 6px 0 0;
+    }
+
+    .footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:12px;
+    }
+
+    @media (max-width: 680px){
+      .two-col{grid-template-columns:1fr}
+    }
+
+    .note{
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius:14px;
+      padding:12px 12px;
+      background: rgba(0,0,0,.12);
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .pill{
+      font-size:12px;
+      padding:3px 8px;
+      border-radius:999px;
+      background: rgba(110,231,183,.12);
+      border:1px solid rgba(110,231,183,.28);
+      color: rgba(110,231,183,.95);
+      margin-left:8px;
+      white-space:nowrap;
+    }
+
+    .pill.blue{
+      background: rgba(122,162,255,.12);
+      border:1px solid rgba(122,162,255,.28);
+      color: rgba(122,162,255,.95);
+    }
+
+    .pill.yellow{
+      background: rgba(251,191,36,.10);
+      border:1px solid rgba(251,191,36,.25);
+      color: rgba(251,191,36,.95);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <header class="hero">
+      <div class="title">
+        <h1>타이타닉 생존 데이터 히트맵 해석 보고서</h1>
+        <div class="meta">
+          <div class="badge"><span class="dot"></span> Pearson Correlation</div>
+          <div style="margin-top:6px;">데이터: <span class="mono">titanicsurvived.csv</span></div>
+        </div>
+      </div>
+      <p class="subtitle">
+        본 보고서는 업로드된 데이터에서 생성한 <strong>상관관계 히트맵</strong>(수치형 / 원-핫 포함)을 바탕으로,
+        변수 간 구조와 생존(<span class="mono">Survived</span>)과의 연결을 해석합니다.
+      </p>
+
+      <div class="kpi">
+        <div class="box">
+          <div class="label">표본 크기</div>
+          <div class="value">418</div>
+          <div class="hint">행(관측치) 수</div>
+        </div>
+        <div class="box">
+          <div class="label">변수 수</div>
+          <div class="value">8</div>
+          <div class="hint">Survived 포함</div>
+        </div>
+        <div class="box">
+          <div class="label">생존률</div>
+          <div class="value">36.36%</div>
+          <div class="hint">Survived 평균(=1 비율)</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>주의:</strong> 상관관계는 <strong>인과관계</strong>가 아닙니다. 또한 Pearson 상관은 <strong>선형 관계</strong>에 민감하며,
+        비선형(예: 나이 구간 효과)·상호작용(예: 성별×등급)은 과소평가될 수 있습니다.
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <section class="card">
+        <h2>
+          <span class="badge"><span class="dot g"></span> 해석 1</span>
+          수치형 히트맵 핵심
+        </h2>
+
+        <div class="section">
+          <div class="badge"><span class="dot"></span> 생존(Survived)과의 상관</div>
+          <table class="table" aria-label="Survived correlation summary">
+            <thead>
+              <tr>
+                <th style="width:26%">변수</th>
+                <th style="width:18%">상관계수</th>
+                <th>해석</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="mono">Fare</span> (운임)</td>
+                <td><strong>+0.19</strong></td>
+                <td>운임이 높을수록(대체로 상위 객실/조건) 생존이 <em>조금</em> 높아지는 경향.</td>
+              </tr>
+              <tr>
+                <td><span class="mono">Parch</span> (부모/자녀 수)</td>
+                <td><strong>+0.16</strong></td>
+                <td>부모/자녀 동반이 있을 때 생존이 약간 높아지는 경향.</td>
+              </tr>
+              <tr>
+                <td><span class="mono">SibSp</span> (형제/배우자 수)</td>
+                <td><strong>+0.10</strong></td>
+                <td>동반 가족이 있을수록 생존이 약간 높아질 수 있으나 효과는 작음.</td>
+              </tr>
+              <tr>
+                <td><span class="mono">Pclass</span> (객실등급)</td>
+                <td><strong>-0.11</strong></td>
+                <td>등급 숫자가 커질수록(3등급) 생존이 조금 낮아지는 경향.</td>
+              </tr>
+              <tr>
+                <td><span class="mono">Age</span> (나이)</td>
+                <td><strong>-0.00</strong></td>
+                <td>선형 상관이 거의 없음. 구간 효과(어린이/고령)나 상호작용이 존재할 가능성.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <div class="badge"><span class="dot y"></span> 변수 간 구조(중요)</div>
+          <ul class="list">
+            <li><strong><span class="mono">Pclass</span> ↔ <span class="mono">Fare</span>: -0.58</strong> — 등급이 낮을수록(1등급) 운임이 높아지는 강한 구조. <span class="pill blue">공선성 후보</span></li>
+            <li><strong><span class="mono">Pclass</span> ↔ <span class="mono">Age</span>: -0.49</strong> — 1등급에 상대적으로 나이가 높은 승객이 더 많았던 경향.</li>
+            <li><strong><span class="mono">SibSp</span> ↔ <span class="mono">Parch</span>: +0.31</strong> — 가족 동반(형제/배우자 ↔ 부모/자녀)이 함께 늘어나는 패턴.</li>
+          </ul>
+          <div class="note" style="margin-top:10px;">
+            모델링 시 <span class="mono">Pclass</span>와 <span class="mono">Fare</span>는 정보가 일부 겹칠 수 있어(다중공선성),
+            둘을 함께 사용할 때 해석이 흔들릴 수 있습니다. 규제(Regularization) 또는 파생변수(<span class="mono">log1p(Fare)</span>) 고려가 가능합니다.
+          </div>
+        </div>
+      </section>
+
+      <aside class="card">
+        <h2>
+          <span class="badge"><span class="dot"></span> 요약</span>
+          핵심 결론
+        </h2>
+
+        <div class="two-col">
+          <div class="box" style="background:rgba(0,0,0,.16); border:1px solid var(--line); border-radius:var(--radius2); padding:12px;">
+            <div class="label">가장 강한 신호</div>
+            <div class="value" style="font-size:18px;">성별(<span class="mono">Sex</span>)</div>
+            <div class="hint">원-핫 포함 히트맵에서 매우 강하게 나타남</div>
+          </div>
+          <div class="box" style="background:rgba(0,0,0,.16); border:1px solid var(--line); border-radius:var(--radius2); padding:12px;">
+            <div class="label">그 다음 유의미</div>
+            <div class="value" style="font-size:18px;">운임/등급(<span class="mono">Fare</span>, <span class="mono">Pclass</span>)</div>
+            <div class="hint">서로 강하게 연결된 구조</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="badge"><span class="dot g"></span> 원-핫 포함 히트맵 포인트</div>
+          <ul class="list">
+            <li><strong><span class="mono">Sex_female</span> ↔ Survived: +0.98</strong> (매우 강한 양의 상관)</li>
+            <li><strong><span class="mono">Sex_male</span> ↔ Survived: -0.97</strong> (매우 강한 음의 상관)</li>
+            <li><span class="mono">Embarked</span>는 전반적으로 <strong>약한 경향</strong> 수준 (Q:+0.12, S:-0.11, C:+0.03)</li>
+          </ul>
+        </div>
+
+        <div class="section">
+          <div class="badge"><span class="dot y"></span> 해석 시 주의</div>
+          <div class="note">
+            원-핫 더미 변수끼리 강한 음의 상관(예: <span class="mono">Embarked_S</span> ↔ <span class="mono">Embarked_C</span>)이 보일 수 있는데,
+            이는 범주가 서로 배타인 <strong>구조적 결과</strong>입니다. 범주 간 상관을 과해석하지 않는 것이 안전합니다.
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="badge"><span class="dot"></span> 다음 단계 추천</div>
+          <div>
+            <span class="tag">Survived × Sex / Pclass 막대그래프</span>
+            <span class="tag">Age 구간화(bin) 후 생존률</span>
+            <span class="tag">Fare log1p 변환 비교</span>
+            <span class="tag">교차표 + 카이제곱 검정</span>
+          </div>
+        </div>
+
+        <div class="footer">
+          * 이 페이지는 단일 HTML 파일로 작성되었습니다. 필요하면 이미지(히트맵)를 <span class="mono">&lt;img&gt;</span>로 삽입해 완성본 보고서로 확장할 수 있습니다.
+        </div>
+      </aside>
+
+    </div>
+
+  </div>
+</body>
+</html>
