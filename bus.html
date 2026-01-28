@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울시 버스 인가현황 - 다변량 분석 보고서</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a2332;
+            --secondary: #2d5f8d;
+            --accent: #e8a547;
+            --trunk: #3366cc;
+            --feeder: #53b332;
+            --express: #dd4444;
+            --night: #5a4fcf;
+            --custom: #ff9900;
+            --light: #f5f7fa;
+            --text: #2c3e50;
+            --text-light: #6c7a8c;
+            --border: #d4dce6;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.8;
+            color: var(--text);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 120px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(232, 165, 71, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(232, 165, 71, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            line-height: 1.2;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            color: var(--accent);
+            font-weight: 300;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero .meta {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--light);
+            padding: 60px;
+            border-left: 5px solid var(--accent);
+        }
+
+        .toc h2 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+        }
+
+        .toc li {
+            counter-increment: toc-counter;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toc li:hover {
+            padding-left: 20px;
+            color: var(--secondary);
+        }
+
+        .toc li::before {
+            content: counter(toc-counter) ". ";
+            font-weight: 700;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 80px 60px;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: var(--light);
+        }
+
+        .section-number {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            font-family: 'Noto Serif KR', serif;
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(45, 95, 141, 0.05);
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            line-height: 1.3;
+            position: relative;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        h3 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 2rem;
+            color: var(--secondary);
+            margin: 40px 0 20px;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: white;
+            border-left: 5px solid var(--accent);
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .stat-value {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--secondary);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            background: white;
+        }
+
+        thead {
+            background: var(--secondary);
+            color: white;
+        }
+
+        th, td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        tbody tr:hover {
+            background: var(--light);
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(245, 247, 250, 0.5);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 20px 0 20px 25px;
+        }
+
+        li {
+            margin: 12px 0;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        ul li::marker {
+            color: var(--accent);
+            font-size: 1.2em;
+        }
+
+        ol {
+            counter-reset: list-counter;
+            list-style: none;
+        }
+
+        ol li {
+            counter-increment: list-counter;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        ol li::before {
+            content: counter(list-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--accent);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Images */
+        .chart-container {
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .chart-container img:hover {
+            transform: scale(1.02);
+        }
+
+        .chart-caption {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Type Cards */
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .type-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .type-card.trunk::before { background: var(--trunk); }
+        .type-card.feeder::before { background: var(--feeder); }
+        .type-card.express::before { background: var(--express); }
+        .type-card.night::before { background: var(--night); }
+        .type-card.custom::before { background: var(--custom); }
+        .type-card.circular::before { background: var(--secondary); }
+
+        .type-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .type-card:hover::before {
+            width: 100%;
+            opacity: 0.05;
+        }
+
+        .type-card h4 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .type-card .bus-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        .type-card ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .type-card li {
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .type-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .type-card.trunk li::before { color: var(--trunk); }
+        .type-card.feeder li::before { color: var(--feeder); }
+        .type-card.express li::before { color: var(--express); }
+        .type-card.night li::before { color: var(--night); }
+        .type-card.custom li::before { color: var(--custom); }
+        .type-card.circular li::before { color: var(--secondary); }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px;
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.8);
+            margin: 10px 0;
+        }
+
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .section {
+                padding: 50px 30px;
+            }
+            
+            .toc {
+                padding: 40px 30px;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .section-number {
+                font-size: 4rem;
+            }
+            
+            .stats-grid,
+            .type-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation on Scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Key Point Badge */
+        .key-point {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #f4b350);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>서울시 버스 인가현황</h1>
+                <p class="subtitle">다변량 분석 보고서</p>
+                <p class="meta">2025년 12월 | 데이터 출처: TOPIS (서울시 교통정보 시스템)</p>
+            </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="toc">
+            <h2>목차</h2>
+            <ol>
+                <li onclick="scrollToSection('executive')">주요 요약</li>
+                <li onclick="scrollToSection('overview')">데이터 개요</li>
+                <li onclick="scrollToSection('analysis')">다변량 분석</li>
+                <li onclick="scrollToSection('findings')">버스 유형별 주요 발견사항</li>
+                <li onclick="scrollToSection('efficiency')">운영 효율성 분석</li>
+                <li onclick="scrollToSection('recommendations')">제안사항</li>
+                <li onclick="scrollToSection('appendix')">부록</li>
+            </ol>
+        </section>
+
+        <!-- 1. Executive Summary -->
+        <section id="executive" class="section fade-in">
+            <div class="section-number">01</div>
+            <div class="section-content">
+                <h2>주요 요약</h2>
+                <p>본 보고서는 2025년 12월 기준 서울시 버스 인가현황에 대한 종합적인 다변량 분석을 제시합니다. 6개 버스 유형의 498개 노선을 분석하여 운영 특성, 자원 배분, 효율성 지표에서 의미 있는 패턴을 발견했습니다.</p>
+
+                <div class="highlight-box">
+                    <h3>핵심 하이라이트</h3>
+                    <ul>
+                        <li><span class="key-point">전체 규모</span>6개 유형 498개 노선 분석: 지선(233), 간선(161), 맞춤(57), 심야(30), 광역(15), 순환(2)</li>
+                        <li><span class="key-point">운영 현황</span>노선당 평균 14.8대, 평균 운행거리 35.8km</li>
+                        <li><span class="key-point">효율성</span>인가대수-운행대수 간 매우 높은 상관관계(0.998)로 효율적인 차량 운용 확인</li>
+                        <li><span class="key-point">유형별 특성</span>버스 유형별로 뚜렷한 운영 패턴 차이, 간선 노선이 가장 높은 운행 강도</li>
+                        <li><span class="key-point">예비차량</span>맞춤버스 최고 예비비율(40.8%), 순환버스 최저(6.7%)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Data Overview -->
+        <section id="overview" class="section fade-in">
+            <div class="section-number">02</div>
+            <div class="section-content">
+                <h2>데이터 개요</h2>
+                
+                <h3>데이터셋 구성</h3>
+                <p>본 분석은 TOPIS(서울시 교통정보 시스템)의 포괄적인 운영 데이터를 기반으로 하며, 2025년 12월 기준 서울시의 모든 인가 버스 노선을 포함합니다.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">498</div>
+                        <div class="stat-label">전체 노선 수</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">14.8대</div>
+                        <div class="stat-label">노선당 평균 버스</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">35.8km</div>
+                        <div class="stat-label">평균 운행거리</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">79.5회</div>
+                        <div class="stat-label">일평균 운행횟수</div>
+                    </div>
+                </div>
+
+                <h3>버스 유형별 분포</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>버스 유형</th>
+                            <th>노선 수</th>
+                            <th>비율</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>🟢 지선 (지역순환)</td>
+                            <td>233</td>
+                            <td>46.8%</td>
+                        </tr>
+                        <tr>
+                            <td>🔵 간선 (주요간선)</td>
+                            <td>161</td>
+                            <td>32.3%</td>
+                        </tr>
+                        <tr>
+                            <td>🟡 맞춤형</td>
+                            <td>57</td>
+                            <td>11.4%</td>
+                        </tr>
+                        <tr>
+                            <td>🌙 심야</td>
+                            <td>30</td>
+                            <td>6.0%</td>
+                        </tr>
+                        <tr>
+                            <td>🔴 광역 (광역급행)</td>
+                            <td>15</td>
+                            <td>3.0%</td>
+                        </tr>
+                        <tr>
+                            <td>🔵 순환</td>
+                            <td>2</td>
+                            <td>0.4%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. Multivariate Analysis -->
+        <section id="analysis" class="section fade-in">
+            <div class="section-number">03</div>
+            <div class="section-content">
+                <h2>다변량 분석</h2>
+
+                <h3>상관관계 분석</h3>
+                <p>상관관계 분석 결과 주요 운영 변수들 간에 강한 관계가 확인되었습니다. 가장 주목할 만한 발견은 인가대수와 운행대수 간의 거의 완벽한 상관관계(0.998)로, 이는 매우 효율적인 차량 관리를 나타냅니다. 또한 노선거리, 운행시간, 총운행횟수 간에 중간에서 강한 상관관계가 존재하며, 이는 긴 노선일수록 자연스럽게 더 많은 운영 자원이 필요함을 시사합니다.</p>
+
+                <div class="chart-container">
+                    <img src="multivariate_eda_visualization.png" alt="다변량 분석 시각화">
+                    <p class="chart-caption">그림 1: 종합 다변량 분석 - 상관관계 히트맵, 버스 유형별 산점도, 분포 분석</p>
+                </div>
+
+                <h3>주요 변수 관계</h3>
+
+                <h4>인가대수 vs 운행거리</h4>
+                <p>버스 유형별로 뚜렷한 패턴이 나타납니다. 간선버스는 차량 규모와 노선거리 모두에서 가장 높은 변동성을 보이며, 서울 대중교통 시스템의 중추로서의 역할을 반영합니다. 광역버스는 수는 적지만 가장 긴 노선(평균 54.1km)을 운행하며 도시 간 연결을 담당합니다.</p>
+
+                <h4>총운행횟수 vs 운행시간</h4>
+                <p>운행시간과 총운행횟수 간에 양의 상관관계가 존재하며, 간선과 지선버스가 가장 높은 일일 운행 빈도를 보입니다. 맞춤버스는 수요응답형 서비스 모델에 부합하게 가장 낮은 운행 빈도를 나타냅니다.</p>
+            </div>
+        </section>
+
+        <!-- 4. Key Findings by Bus Type -->
+        <section id="findings" class="section fade-in">
+            <div class="section-number">04</div>
+            <div class="section-content">
+                <h2>버스 유형별 주요 발견사항</h2>
+
+                <div class="type-grid">
+                    <div class="type-card trunk">
+                        <h4><span class="bus-icon">🔵</span>간선버스 (파란색)</h4>
+                        <ul>
+                            <li>주요 간선도로를 따라 161개 노선 운영</li>
+                            <li>가장 많은 차량 배정 (노선당 22.2대)</li>
+                            <li>평균 운행거리: 43.2km로 커버리지와 효율성 균형</li>
+                            <li>높은 운영 강도: 일평균 97.4회 운행</li>
+                            <li>예비차량 비율: 4.4%로 타이트한 운영 관리</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card feeder">
+                        <h4><span class="bus-icon">🟢</span>지선버스 (초록색)</h4>
+                        <ul>
+                            <li>233개 노선 (전체의 46.8%)으로 최대 규모</li>
+                            <li>평균 차량: 14.7대로 간선보다 소규모</li>
+                            <li>짧은 노선 (평균 29.1km)으로 지역 연결 집중</li>
+                            <li>간선과 유사한 운행 빈도 (일 96.1회)</li>
+                            <li>지역 커뮤니티 내 접근성 제공</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card express">
+                        <h4><span class="bus-icon">🔴</span>광역버스</h4>
+                        <ul>
+                            <li>장거리 통근 수요를 위한 15개 노선</li>
+                            <li>가장 긴 평균 거리: 54.1km</li>
+                            <li>중간 규모 차량 배정 (노선당 11.1대)</li>
+                            <li>낮은 운행 빈도: 일 56.1회</li>
+                            <li>가장 높은 예비비율 (16.3%)로 안정성 확보</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card night">
+                        <h4><span class="bus-icon">🌙</span>심야버스</h4>
+                        <ul>
+                            <li>야간 서비스를 위한 30개 노선</li>
+                            <li>최소 차량 규모: 노선당 4.7대</li>
+                            <li>매우 긴 노선: 평균 75.4km</li>
+                            <li>낮은 운행 빈도: 일 4.8회</li>
+                            <li>대당 최고 효율성으로 특화 서비스</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card custom">
+                        <h4><span class="bus-icon">🟡</span>맞춤형 버스</h4>
+                        <ul>
+                            <li>특정 수요를 위한 57개 노선</li>
+                            <li>최소 차량: 노선당 1.3대</li>
+                            <li>짧은 노선: 평균 17.2km</li>
+                            <li>매우 낮은 운행: 일 5.6회</li>
+                            <li>매우 높은 예비비율 (40.8%)로 서비스 가용성 확보</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card circular">
+                        <h4><span class="bus-icon">🔵</span>순환버스</h4>
+                        <ul>
+                            <li>독특한 순환 구조의 2개 노선</li>
+                            <li>차량 규모: 노선당 11.0대</li>
+                            <li>노선거리: 16.0km</li>
+                            <li>높은 운행: 일 108.0회</li>
+                            <li>예비비율: 6.7%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <img src="multivariate_eda_detailed.png" alt="상세 분석">
+                    <p class="chart-caption">그림 2: 상세 분석 - 버스 유형별 비교, 회사별 순위, 운영 패턴 분석</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Operational Efficiency Analysis -->
+        <section id="efficiency" class="section fade-in">
+            <div class="section-number">05</div>
+            <div class="section-content">
+                <h2>운영 효율성 분석</h2>
+
+                <h3>차량 활용도</h3>
+                <p>모든 버스 유형에서 탁월한 차량 활용도가 확인되었으며, 인가대수와 운행대수 간 전체 상관관계가 0.998입니다. 이는 거의 모든 인가 차량이 활발히 배치되어 유휴 용량을 최소화함을 의미합니다. 인가대수와 운행대수 간의 작은 격차(노선당 평균 0.73대의 예비차량)는 필요한 백업 용량을 유지하면서도 효율적인 자원 배분을 보여줍니다.</p>
+
+                <h3>배차 빈도 최적화</h3>
+                <p>배차 간격은 버스 유형과 노선 특성에 따라 체계적으로 변화합니다. 간선과 지선버스는 첨두시간에 가장 짧은 간격(최소 8-12분)을 유지하는 반면, 광역과 심야버스는 서로 다른 수요 패턴을 반영하여 더 긴 간격(12-20분)으로 운행합니다. 노선거리와 배차간격 간의 명확한 양의 상관관계는 운영 제약조건을 기반으로 한 최적화된 스케줄링을 시사합니다.</p>
+
+                <h3>예비차량 관리</h3>
+                <p>예비차량 비율은 버스 유형에 따라 크게 달라지며, 이는 서로 다른 운영 요구사항을 반영합니다. 맞춤버스는 특화 서비스의 중요성으로 인해 가장 높은 비율(40.8%)을 유지합니다. 간선버스는 예측 가능한 수요 패턴과 견고한 유지보수 일정에 의존하여 최소 예비 용량(4.4%)으로 운영합니다. 이러한 차별화는 서비스 특성에 맞춘 정교한 자원 계획을 보여줍니다.</p>
+            </div>
+        </section>
+
+        <!-- 6. Recommendations -->
+        <section id="recommendations" class="section fade-in">
+            <div class="section-number">06</div>
+            <div class="section-content">
+                <h2>제안사항</h2>
+
+                <div class="highlight-box">
+                    <h3>운영 최적화</h3>
+                    <ol>
+                        <li>데이터에서 관찰된 6-10분의 배차간격 변동성을 해결하기 위해 첨두시간대 간선버스의 동적 차량 배분 전략 검토</li>
+                        <li>일관된 승객 패턴을 보이는 고수요 노선에서 심야버스 운행 빈도 증가 기회 평가</li>
+                        <li>서비스 안정성을 해치지 않으면서 맞춤버스의 예비차량 비율을 검토하여 잠재적 효율성 향상 방안 모색</li>
+                    </ol>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>자원 계획</h3>
+                    <ol>
+                        <li>노선거리와 운행시간 간의 강한 상관관계를 기반으로 예측 유지보수 스케줄링을 구현하여 계획되지 않은 다운타임 최소화</li>
+                        <li>비첨두시간대 지선과 간선버스 간 차량 공유 기회 탐색</li>
+                        <li>기존 노선의 성공적인 활용 패턴을 바탕으로 인구 증가를 보이는 교외 지역으로의 광역노선 점진적 확대 고려</li>
+                    </ol>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>데이터 기반 의사결정</h3>
+                    <ol>
+                        <li>본 분석에서 확인된 효율성 지표를 지속적으로 추적하는 실시간 모니터링 시스템 구축</li>
+                        <li>유사한 노선 유형 간 운영 성과를 비교하는 벤치마킹 프레임워크 개발하여 모범 사례 발굴</li>
+                        <li>승객 수요 데이터와 운영 지표를 통합하여 배차 빈도와 노선 계획을 동적으로 최적화</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Appendix -->
+        <section id="appendix" class="section fade-in">
+            <div class="section-number">07</div>
+            <div class="section-content">
+                <h2>부록</h2>
+
+                <h3>분석 방법론</h3>
+                <p>본 분석은 운영 변수 간 관계를 조사하기 위해 여러 통계 및 시각화 기법을 적용했습니다:</p>
+                <ul>
+                    <li>연속 변수 간 관계를 파악하기 위한 상관관계 분석</li>
+                    <li>박스플롯과 히스토그램을 사용한 분포 분석으로 변동성 이해</li>
+                    <li>버스 유형별 범주형 그룹화를 포함한 다변량 산점도</li>
+                    <li>효율성 지표 계산 (대당 운행횟수, 예비차량 비율)</li>
+                    <li>버스 유형 및 운영 회사 간 비교 분석</li>
+                </ul>
+
+                <h3>데이터 품질 참고사항</h3>
+                <p>데이터셋은 분석 전 철저히 정제 및 검증되었습니다. 모든 수치 변수는 일관성을 확인했으며 이상치는 맥락에서 검토되었습니다. 인가대수와 운행대수 간의 높은 상관관계(0.998)는 데이터 정확성과 일관성을 확인하는 검증 지표로 작용합니다.</p>
+
+                <h3>한계점</h3>
+                <p>본 분석은 2025년 12월 시점의 스냅샷을 나타내며 연중 시간적 변동을 포착하지 못합니다. 계절적 패턴, 특별 행사, 평일/주말 차이는 이 횡단면 분석에 반영되지 않았습니다. 향후 연구에서는 동적 운영 패턴을 이해하기 위해 시계열 데이터를 통합해야 합니다.</p>
+
+                <h3>문의처</h3>
+                <p>본 분석에 대한 질문이나 추가 세부사항을 요청하시려면 서울시 교통분석팀에 문의하시기 바랍니다.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p><strong>데이터 출처:</strong> TOPIS (서울시 교통정보 시스템)</p>
+            <p><strong>분석 일자:</strong> 2026년 1월</p>
+            <p>&copy; 2026 서울시 교통분석팀. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll to section
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Fade in on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
