@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2025년 12월 서울시 버스 노선 인가현황 분석보고서</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #111a33;
+      --text: #e7ecff;
+      --muted: #b9c3e6;
+      --line: rgba(255,255,255,.10);
+      --accent: #7aa2ff;
+      --accent2: #76e4c6;
+      --warn: #ffd166;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      background: radial-gradient(1200px 800px at 10% 10%, rgba(122,162,255,.20), transparent 60%),
+                  radial-gradient(1000px 700px at 90% 20%, rgba(118,228,198,.18), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      padding: 56px 20px 22px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(255,255,255,.03);
+      font-size: 13px;
+    }
+    h1 {
+      margin: 14px 0 10px;
+      font-size: clamp(26px, 3vw, 38px);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      max-width: 78ch;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 20px 80px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: rgba(17,26,51,.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 20px 18px;
+      backdrop-filter: blur(6px);
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+    }
+    .card h3 {
+      margin: 16px 0 8px;
+      font-size: 15px;
+      color: var(--text);
+    }
+    .muted { color: var(--muted); }
+    hr.sep {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: 14px 0;
+    }
+
+    ul {
+      padding-left: 18px;
+      margin: 8px 0 0;
+    }
+    li { margin: 6px 0; }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (max-width: 560px) {
+      .kpi { grid-template-columns: 1fr; }
+    }
+    .kpi .box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      background: rgba(255,255,255,.03);
+    }
+    .kpi .label {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0 0 6px;
+    }
+    .kpi .value {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .kpi .note {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent2);
+      padding: 12px 12px 12px 14px;
+      background: rgba(118,228,198,.06);
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      color: var(--muted);
+    }
+    .toc a:hover {
+      border-color: var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      text-decoration: none;
+    }
+    .pill {
+      display: inline-flex;
+      padding: 2px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      background: rgba(255,255,255,.03);
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    section { scroll-margin-top: 18px; }
+    footer {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    code.inline {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.95em;
+      background: rgba(255,255,255,.06);
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="badge">TOPIS · 2025년 12월 · 버스 노선 운영 분석</div>
+    <h1>2025년 12월 서울시 버스 노선 인가현황 분석보고서</h1>
+    <p class="subtitle">본 웹페이지는 업로드된 「2025.12월 인가현황(TOPIS)」 데이터를 기반으로 한 일변량/다변량 EDA 결과를 정리한 분석보고서입니다. (표·그래프는 최소화하고, 시각화 해석과 정책 시사점 중심으로 구성)</p>
+  </header>
+
+  <main class="grid">
+    <article class="card">
+      <section id="s1">
+        <h2>1. 분석 목적</h2>
+        <p class="muted">노선별 운영 특성과 구조적 관계를 파악하여 교통 정책 및 노선 운영 개선에 활용 가능한 시사점을 도출합니다.</p>
+      </section>
+
+      <hr class="sep" />
+
+      <section id="s2">
+        <h2>2. 데이터 개요</h2>
+        <div class="kpi" role="list">
+          <div class="box" role="listitem">
+            <p class="label">관측치(노선)</p>
+            <p class="value">498</p>
+            <p class="note">노선 단위 분석 가능</p>
+          </div>
+          <div class="box" role="listitem">
+            <p class="label">변수</p>
+            <p class="value">15</p>
+            <p class="note">범주형 5 · 수치형 10</p>
+          </div>
+          <div class="box" role="listitem">
+            <p class="label">결측치</p>
+            <p class="value">0</p>
+            <p class="note">데이터 정합성 양호</p>
+          </div>
+        </div>
+      </section>
+
+      <hr class="sep" />
+
+      <section id="s3">
+        <h2>3. 일변량 분석 요약</h2>
+
+        <h3>3.1 범주형 변수</h3>
+        <ul>
+          <li><strong>노선 유형</strong>: 지선 비중이 높아 생활권 연결 중심 구조가 두드러집니다.</li>
+          <li><strong>업체 분포</strong>: 다수 운수업체가 참여하되, 일부 업체에 노선이 상대적으로 집중됩니다.</li>
+          <li><strong>기점·종점</strong>: 차고지/도심 거점(예: 서울역)으로의 집중 경향이 관찰됩니다.</li>
+        </ul>
+
+        <h3>3.2 수치형 변수</h3>
+        <ul>
+          <li><strong>인가대수·운행대수</strong>: 평균 14~15대 수준으로 운영 규모가 형성되며, 일부 대규모 노선이 존재합니다.</li>
+          <li><strong>예비대수</strong>: 대부분 0~1대 수준으로 최소 예비 운영이 일반적입니다.</li>
+          <li><strong>인가거리·운행시간</strong>: 중·장거리 혼재이며, 거리 대비 시간 편차가 존재합니다.</li>
+          <li><strong>배차(최소/최대)</strong>: 저빈도(최대 60분) 노선이 일부 존재해 접근성 격차 가능성이 있습니다.</li>
+        </ul>
+      </section>
+
+      <hr class="sep" />
+
+      <section id="s4">
+        <h2>4. 다변량(시각화) 분석 결과</h2>
+
+        <h3>4.1 상관관계(히트맵) 핵심</h3>
+        <ul>
+          <li><strong>인가대수 ↔ 운행대수</strong>: 매우 강한 양의 상관 → 인가가 실제 운행 규모로 직결되는 구조</li>
+          <li><strong>인가대수 ↔ 총운행횟수</strong>: 강한 양의 상관 → 공급(차량 수)이 운행량을 좌우</li>
+          <li><strong>인가거리 ↔ 운행시간</strong>: 뚜렷한 양의 상관 → 물리적 이동량 증가에 따라 소요시간 증가</li>
+          <li><strong>첫차·막차</strong>: 운영 규모 변수와 상관 낮음 → 정책·수요·생활권 고려로 결정되는 성격</li>
+        </ul>
+
+        <h3>4.2 산점도 해석</h3>
+        <ul>
+          <li><strong>인가거리 vs 운행시간</strong>: 우상향 패턴 + 동일 거리 내 분산 → 도심 통과, 정차 수, 혼잡도 등이 효율을 좌우</li>
+          <li><strong>인가대수 vs 총운행횟수</strong>: 선형 증가 + 일부 저효율 노선 존재 → 회차 구조·배차 설계에 따른 차이 가능</li>
+        </ul>
+
+        <div class="callout">
+          <strong>핵심 포인트:</strong> 효율 판단은 단순 거리보다 <span class="inline code">노선 설계(정차·혼잡·회차·유형)</span> 영향이 큽니다.
+        </div>
+      </section>
+
+      <hr class="sep" />
+
+      <section id="s5">
+        <h2>5. 종합 해석</h2>
+        <p>
+          데이터는 서울시 버스 운영이 <strong>인가대수 → 운행대수 → 총운행횟수</strong>로 이어지는 공급 중심 구조임을 보여줍니다.
+          반면 운행 효율의 차이는 거리 자체보다는 <strong>노선 유형(간선/지선), 도심 통과 여부, 회차 구조, 배차 정책</strong> 등 설계 요소에서 발생합니다.
+        </p>
+      </section>
+
+      <hr class="sep" />
+
+      <section id="s6">
+        <h2>6. 정책 및 운영 시사점</h2>
+        <ol>
+          <li><strong>차량 대비 운행효율 점검</strong>: 인가대수 대비 운행횟수가 낮은 노선 선별(운영 구조 점검 후보)</li>
+          <li><strong>거리–시간 비효율 관리</strong>: 동일 거리 대비 운행시간 과다 노선은 혼잡·정차·회차 개선 검토</li>
+          <li><strong>생활권(지선) 중심 안정성</strong>: 지선 비중을 감안해 배차 안정성과 접근성 격차 완화</li>
+          <li><strong>시간대 정책 분리</strong>: 첫차·막차는 공급 논리보다 시민 편의/복지 중심으로 설계</li>
+        </ol>
+      </section>
+
+      <hr class="sep" />
+
+      <section id="s7">
+        <h2>7. 결론</h2>
+        <p>
+          2025년 12월 서울시 버스 인가현황 분석 결과, 행정 인가와 실제 운행이 강하게 결합된 안정적 구조를 확인했습니다.
+          다만 노선별 효율 차이를 고려한 <strong>미시적 관리</strong>(저효율·비효율 후보군 선별, 노선 유형별 접근)이 향후 정책 고도화의 핵심 과제로 판단됩니다.
+        </p>
+      </section>
+    </article>
+
+    <aside class="card toc" aria-label="목차">
+      <h2>목차</h2>
+      <a href="#s1">1. 분석 목적</a>
+      <a href="#s2">2. 데이터 개요 <span class="pill">KPI</span></a>
+      <a href="#s3">3. 일변량 분석 요약</a>
+      <a href="#s4">4. 다변량(시각화) 분석</a>
+      <a href="#s5">5. 종합 해석</a>
+      <a href="#s6">6. 시사점</a>
+      <a href="#s7">7. 결론</a>
+
+      <hr class="sep" />
+      <h3 style="margin:0 0 6px;">표기 안내</h3>
+      <p class="muted" style="margin:0;">원 데이터 컬럼 중 줄바꿈이 포함된 항목은 화면 표시를 위해 축약 표기했습니다.</p>
+    </aside>
+  </main>
+
+  <footer>
+    <p style="margin:0;">
+      생성일: 2026-01-28 (Asia/Seoul) · 데이터: 2025년 12월 TOPIS 인가현황 · 형태: 단일 HTML (CSS 포함)
+    </p>
+  </footer>
+</body>
+</html>
