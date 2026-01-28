@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>삼성전자 종목평가 분석 보고서</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#111a33;
+      --card2:#0f1730;
+      --text:#e9eefc;
+      --muted:#b8c2e6;
+      --line:rgba(233,238,252,.12);
+      --accent:#6ea8ff;
+      --good:#58d19d;
+      --warn:#ffd27a;
+      --bad:#ff7a7a;
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(110,168,255,.35), transparent 55%),
+        radial-gradient(900px 500px at 90% 0%, rgba(88,209,157,.25), transparent 60%),
+        radial-gradient(900px 500px at 10% 120%, rgba(255,210,122,.20), transparent 60%),
+        var(--bg);
+      line-height:1.6;
+    }
+
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    header{
+      padding:44px 20px 20px;
+    }
+    .wrap{max-width:var(--max); margin:0 auto;}
+
+    .top{
+      display:flex;
+      flex-wrap:wrap;
+      gap:18px;
+      align-items:flex-end;
+      justify-content:space-between;
+    }
+    .title{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-width:280px;
+    }
+    h1{
+      font-size:28px;
+      margin:0;
+      letter-spacing:-.2px;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .pillrow{display:flex; gap:10px; flex-wrap:wrap;}
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12.5px;
+      color:var(--muted);
+      backdrop-filter: blur(8px);
+    }
+
+    nav{
+      margin-top:18px;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.15);
+      position:sticky;
+      top:0;
+      z-index:5;
+      backdrop-filter: blur(10px);
+    }
+    nav .wrap{display:flex; gap:14px; overflow:auto; padding:10px 20px;}
+    nav a{
+      white-space:nowrap;
+      font-size:13px;
+      color:var(--muted);
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid transparent;
+    }
+    nav a:hover{border-color:var(--line); color:var(--text)}
+
+    main{padding:18px 20px 54px;}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .card h2{
+      margin:0;
+      font-size:16px;
+      letter-spacing:-.2px;
+    }
+    .tag{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      padding:5px 10px;
+      border-radius:999px;
+    }
+    .card .bd{padding:16px 18px;}
+
+    .kpi{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:10px;
+    }
+    .kpi .box{
+      background:rgba(0,0,0,.18);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 14px;
+      min-height:92px;
+    }
+    .kpi .label{color:var(--muted); font-size:12px; margin:0 0 8px;}
+    .kpi .value{font-size:20px; margin:0;}
+    .kpi .hint{color:var(--muted); font-size:12px; margin:8px 0 0;}
+
+    .callout{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.22);
+      border-radius:16px;
+      padding:14px 14px;
+    }
+    .callout strong{color:var(--text)}
+
+    .two{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:12px;
+    }
+    @media (max-width: 920px){
+      .two{grid-template-columns:1fr}
+      .kpi{grid-template-columns:1fr}
+    }
+
+    ul{margin:10px 0 0; padding-left:18px;}
+    li{margin:6px 0; color:var(--text)}
+    .muted{color:var(--muted)}
+
+    .figure{
+      border:1px dashed rgba(233,238,252,.22);
+      background:rgba(0,0,0,.18);
+      border-radius:16px;
+      padding:14px;
+    }
+    .figcap{margin:10px 0 0; color:var(--muted); font-size:12.5px}
+
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(0,0,0,.14);
+    }
+    th,td{padding:10px 12px; text-align:left; border-bottom:1px solid var(--line); font-size:13px;}
+    th{color:var(--muted); font-weight:600; background:rgba(255,255,255,.03)}
+    tr:last-child td{border-bottom:none}
+
+    footer{
+      padding:24px 20px 36px;
+      color:var(--muted);
+      border-top:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+    }
+    .small{font-size:12.5px}
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="top">
+        <div class="title">
+          <h1>삼성전자 종목평가 분석 보고서</h1>
+          <p class="subtitle">EDA 및 시각화 기반 종목평가 · 핵심 질문: “이 상승이 추세인지 일시적 반등인지”</p>
+          <div class="pillrow">
+            <span class="pill">데이터: 243 거래일</span>
+            <span class="pill">결측치: 0</span>
+            <span class="pill">핵심축: 추세(이평) · 변동성 · 유동성(거래량)</span>
+          </div>
+        </div>
+        <div class="pillrow">
+          <span class="pill">보고서 용도: 분석 보고서</span>
+          <span class="pill">관점: 주식 매니저</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <div class="wrap">
+      <a href="#summary">요약</a>
+      <a href="#data">데이터 개요</a>
+      <a href="#uni">일변량 요약</a>
+      <a href="#multi">다변량 요약</a>
+      <a href="#heatmap">히트맵 해석</a>
+      <a href="#trend">추세 판단(이평·거래량)</a>
+      <a href="#drawdown">낙폭(Drawdown)</a>
+      <a href="#outliers">이상치</a>
+      <a href="#forecast">단기 예측</a>
+      <a href="#conclusion">종합 결론</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrap grid">
+
+      <!-- Summary -->
+      <section id="summary" class="card">
+        <div class="hd">
+          <h2>요약</h2>
+          <span class="tag">Manager View</span>
+        </div>
+        <div class="bd">
+          <div class="two">
+            <div class="callout">
+              <strong>핵심 판단</strong><br/>
+              종가는 중기 이동평균선(60일) 상회 구간을 유지하고 있으며, 상승 국면에서 거래량 동행이 확인되어 <strong>‘반등’보다는 ‘추세 우위’</strong>로 해석된다. 다만 고점 부근에서는 단기 변동성 확대에 유의가 필요하다.
+            </div>
+            <div class="kpi">
+              <div class="box">
+                <p class="label">보고서 결론(한 줄)</p>
+                <p class="value">추세 우위</p>
+                <p class="hint">단기 조정 가능성 동반</p>
+              </div>
+              <div class="box">
+                <p class="label">분석 포커스</p>
+                <p class="value">이평·거래량</p>
+                <p class="hint">추세 신뢰도 확인</p>
+              </div>
+              <div class="box">
+                <p class="label">주의 구간</p>
+                <p class="value">고점 인근</p>
+                <p class="hint">변동성 확대</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data -->
+      <section id="data" class="card">
+        <div class="hd">
+          <h2>데이터 개요</h2>
+          <span class="tag">243 rows · 11 cols</span>
+        </div>
+        <div class="bd">
+          <ul>
+            <li><strong>관측치</strong>: 243개 거래일</li>
+            <li><strong>변수</strong>: 일자, 종가/시가/고가/저가, 대비, 등락률, 거래량, 거래대금, 시가총액, 상장주식수</li>
+            <li><strong>결측치</strong>: 없음</li>
+            <li><strong>상장주식수</strong>: 기간 내 상수(분석 기여도 낮음)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Univariate -->
+      <section id="uni" class="card">
+        <div class="hd"><h2>일변량 분석 요약</h2><span class="tag">Distribution</span></div>
+        <div class="bd">
+          <ul>
+            <li><strong>가격 변수</strong>: 장기 우상향 구조, 데이터 정합성 우수(고가≥시가/종가≥저가).</li>
+            <li><strong>대비/등락률</strong>: 0 중심 분포, 급등·급락 구간 존재(이벤트성 변동).</li>
+            <li><strong>거래량/거래대금</strong>: 오른쪽 꼬리(long tail), 특정 거래일 거래 집중.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Multivariate -->
+      <section id="multi" class="card">
+        <div class="hd"><h2>다변량 분석 요약</h2><span class="tag">Relationships</span></div>
+        <div class="bd">
+          <ul>
+            <li><strong>가격 변수 간 중복</strong>: 종가·시가·고가·저가·시가총액은 매우 높은 상관(중복 정보).</li>
+            <li><strong>변동성 ↔ 유동성</strong>: 등락률/일중변동폭이 클수록 거래량 증가 경향.</li>
+            <li><strong>가격 ↔ 거래량</strong>: 가격 수준과 거래량의 직접 상관은 약함(이슈/심리 요인 영향).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Heatmap -->
+      <section id="heatmap" class="card">
+        <div class="hd"><h2>히트맵 해석(보고서 문단)</h2><span class="tag">Correlation</span></div>
+        <div class="bd">
+          <p>
+            수치형 변수 간 상관계수 히트맵 분석 결과, 삼성전자 주가 데이터는 가격 관련 변수들이 강하게 군집된 구조를 보인다.
+            종가, 시가, 고가, 저가 및 시가총액은 모두 매우 높은 양의 상관관계를 나타내며, 이는 동일한 가격 정보를 서로 다른 형태로 반복적으로 포함하고 있음을 의미한다.
+            따라서 분석 및 모델링 과정에서 해당 변수들을 동시에 사용하는 것은 다중공선성 문제를 유발할 가능성이 높다.
+            한편, 대비와 등락률 역시 높은 상관관계를 보여 동일 계열 변수로 판단되며, 목적에 따라 하나의 변수만 선택하는 것이 합리적이다.
+            거래량과 거래대금은 강한 양의 상관을 보이나, 가격 변수들과의 직접적인 상관은 상대적으로 낮게 나타나 거래량이 가격 수준보다 변동성·이슈·심리에 더 민감하게 반응함을 시사한다.
+            상장주식수는 다른 변수와의 상관이 거의 없어 분석 기여도가 낮다.
+          </p>
+          <div class="figure" aria-label="히트맵 이미지 자리">
+            <div class="muted">[그림] 수치형 데이터 상관계수 히트맵 (이미지 삽입 영역)</div>
+            <p class="figcap">캡션: 가격 변수 군집(중복) 및 변동성·유동성 축의 중요성 확인</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trend -->
+      <section id="trend" class="card">
+        <div class="hd"><h2>추세 판단 핵심 차트</h2><span class="tag">Close + MA + Volume</span></div>
+        <div class="bd">
+          <div class="figure" aria-label="추세 그래프 자리">
+            <div class="muted">[그림] 종가 + 이동평균(20/60/120) + 거래량 (이미지 삽입 영역)</div>
+            <p class="figcap">캡션: 종가가 중기 추세선(60일) 상회 및 거래량 동행 여부로 추세/반등을 구분</p>
+          </div>
+          <ul>
+            <li><strong>추세 신호</strong>: 종가의 60일선 상회 여부(중기 추세) + 20일선(단기 모멘텀).</li>
+            <li><strong>신뢰도 신호</strong>: 상승 국면에서 거래량 동행(수급 확인).</li>
+            <li><strong>실무 팁</strong>: 가격 변수 중복이 크므로, 보고서에서는 <em>종가 + 이평 + 거래량</em> 조합을 핵심으로 제시.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Drawdown -->
+      <section id="drawdown" class="card">
+        <div class="hd"><h2>리스크 체크: 낙폭(Drawdown)</h2><span class="tag">Risk</span></div>
+        <div class="bd">
+          <div class="figure" aria-label="드로우다운 그래프 자리">
+            <div class="muted">[그림] 최고점 대비 낙폭(%) Drawdown (이미지 삽입 영역)</div>
+            <p class="figcap">캡션: 고점 회복/갱신 여부로 반등(회복) vs 추세(신고가 근접) 판단 보조</p>
+          </div>
+          <p class="muted">해석: Drawdown이 0%에 가까울수록(신고가 근접) 추세 신호가 강화되며, 낙폭이 확대될수록 리스크 관리(비중/손절/헤지) 필요성이 커진다.</p>
+        </div>
+      </section>
+
+      <!-- Outliers -->
+      <section id="outliers" class="card">
+        <div class="hd"><h2>이상치(Outlier) 해석</h2><span class="tag">IQR</span></div>
+        <div class="bd">
+          <ul>
+            <li>가격·거래량·거래대금에서 통계적 이상치가 탐지되었으나, 본 데이터의 성격상 <strong>오류가 아닌 이벤트성 관측치</strong>로 판단된다.</li>
+            <li>따라서 이상치 제거보다는 <strong>변동성/수급 이벤트 분석에 활용</strong>하는 접근이 적절하다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Forecast -->
+      <section id="forecast" class="card">
+        <div class="hd"><h2>단기 종가 예측(예시)</h2><span class="tag">Simple</span></div>
+        <div class="bd">
+          <p class="muted">최근 5거래일 평균 변화량 기반의 단순 예측(설명용):</p>
+          <table>
+            <thead>
+              <tr><th>항목</th><th>값</th><th>비고</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>예측 기준</td><td>최근 5거래일 평균 변화</td><td>이벤트 미반영</td></tr>
+              <tr><td>예측 종가(1/27)</td><td><strong>107,740원</strong></td><td>보합~소폭 조정 시나리오</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Conclusion -->
+      <section id="conclusion" class="card">
+        <div class="hd"><h2>종합 결론</h2><span class="tag">Decision</span></div>
+        <div class="bd">
+          <div class="callout">
+            <strong>매니저 결론 한 줄</strong><br/>
+            삼성전자는 중기 상승 추세를 유지하고 있으나, 고점 부근에서는 단기 조정 가능성을 감안해 <strong>분할 대응(비중 조절) 전략</strong>이 적절하다.
+          </div>
+          <ul>
+            <li><strong>추세</strong>: 이평 상회 유지 + 거래량 동행 → 추세 우위</li>
+            <li><strong>리스크</strong>: 고점 인근 변동성 확대 → 포지션 관리 필요</li>
+            <li><strong>다음 단계</strong>: ATR/변동성 지표, 이벤트(실적·공시) 결합, 변수 축소 후 예측 고도화</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="small">
+        ※ 본 웹페이지는 업로드된 데이터 기반 EDA 결과를 보고서 형식으로 재구성한 자료이며, 투자 판단의 최종 근거가 아니라 참고 자료로 활용을 권장합니다.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
