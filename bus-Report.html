@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seoul Bus License Status - Multivariate Analysis Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a2332;
+            --secondary: #2d5f8d;
+            --accent: #e8a547;
+            --light: #f5f7fa;
+            --text: #2c3e50;
+            --text-light: #6c7a8c;
+            --border: #d4dce6;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 120px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(232, 165, 71, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(232, 165, 71, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.8rem;
+            color: var(--accent);
+            font-weight: 300;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .hero .meta {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.7);
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: var(--light);
+            padding: 60px;
+            border-left: 5px solid var(--accent);
+        }
+
+        .toc h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+        }
+
+        .toc li {
+            counter-increment: toc-counter;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toc li:hover {
+            padding-left: 20px;
+            color: var(--secondary);
+        }
+
+        .toc li::before {
+            content: counter(toc-counter) ". ";
+            font-weight: 600;
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 80px 60px;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: var(--light);
+        }
+
+        .section-number {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            font-weight: 900;
+            color: rgba(45, 95, 141, 0.05);
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .section-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--secondary);
+            margin: 40px 0 20px;
+            font-weight: 700;
+        }
+
+        h4 {
+            font-size: 1.4rem;
+            color: var(--secondary);
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        /* Highlight Boxes */
+        .highlight-box {
+            background: white;
+            border-left: 5px solid var(--accent);
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--secondary);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            background: white;
+        }
+
+        thead {
+            background: var(--secondary);
+            color: white;
+        }
+
+        th, td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        tbody tr:hover {
+            background: var(--light);
+        }
+
+        tbody tr:nth-child(even) {
+            background: rgba(245, 247, 250, 0.5);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 20px 0 20px 25px;
+        }
+
+        li {
+            margin: 12px 0;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        ul li::marker {
+            color: var(--accent);
+            font-size: 1.2em;
+        }
+
+        ol {
+            counter-reset: list-counter;
+            list-style: none;
+        }
+
+        ol li {
+            counter-increment: list-counter;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        ol li::before {
+            content: counter(list-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--accent);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Images */
+        .chart-container {
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .chart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .chart-container img:hover {
+            transform: scale(1.02);
+        }
+
+        .chart-caption {
+            margin-top: 20px;
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Type Cards */
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .type-card {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .type-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .type-card h4 {
+            color: var(--primary);
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+
+        .type-card ul {
+            margin-left: 0;
+            list-style: none;
+        }
+
+        .type-card li {
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .type-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px;
+            text-align: center;
+        }
+
+        footer p {
+            color: rgba(255,255,255,0.8);
+            margin: 10px 0;
+        }
+
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .section {
+                padding: 50px 30px;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .section-number {
+                font-size: 4rem;
+            }
+            
+            .stats-grid,
+            .type-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation on Scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Seoul Bus License Status</h1>
+                <p class="subtitle">Multivariate Analysis Report</p>
+                <p class="meta">December 2025 | Data Source: TOPIS</p>
+            </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <section class="toc">
+            <h2>Table of Contents</h2>
+            <ol>
+                <li onclick="scrollToSection('executive')">Executive Summary</li>
+                <li onclick="scrollToSection('overview')">Data Overview</li>
+                <li onclick="scrollToSection('analysis')">Multivariate Analysis</li>
+                <li onclick="scrollToSection('findings')">Key Findings by Bus Type</li>
+                <li onclick="scrollToSection('efficiency')">Operational Efficiency Analysis</li>
+                <li onclick="scrollToSection('recommendations')">Recommendations</li>
+                <li onclick="scrollToSection('appendix')">Appendix</li>
+            </ol>
+        </section>
+
+        <!-- 1. Executive Summary -->
+        <section id="executive" class="section fade-in">
+            <div class="section-number">01</div>
+            <div class="section-content">
+                <h2>Executive Summary</h2>
+                <p>This report presents a comprehensive multivariate analysis of Seoul's bus license status as of December 2025. The analysis examines 498 bus routes across 6 different bus types, revealing significant patterns in operational characteristics, resource allocation, and efficiency metrics.</p>
+
+                <div class="highlight-box">
+                    <h3>Key Highlights</h3>
+                    <ul>
+                        <li>Total 498 bus routes analyzed across 6 types: Feeder (233), Trunk (161), Customized (57), Night (30), Express (15), and Circular (2)</li>
+                        <li>Average fleet size: 14.8 buses per route with an average route distance of 35.8 km</li>
+                        <li>Strong correlation (0.998) between licensed buses and operational buses indicates efficient fleet utilization</li>
+                        <li>Significant variation in operational patterns across bus types, with trunk lines showing highest intensity</li>
+                        <li>Customized buses maintain highest spare vehicle ratio (40.8%), while circular buses show lowest (6.7%)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Data Overview -->
+        <section id="overview" class="section fade-in">
+            <div class="section-number">02</div>
+            <div class="section-content">
+                <h2>Data Overview</h2>
+                
+                <h3>Dataset Composition</h3>
+                <p>The analysis is based on comprehensive operational data from the TOPIS system, covering all licensed bus routes in Seoul as of December 2025.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">498</div>
+                        <div class="stat-label">Total Routes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">14.8</div>
+                        <div class="stat-label">Avg Buses/Route</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">35.8 km</div>
+                        <div class="stat-label">Avg Distance</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">79.5</div>
+                        <div class="stat-label">Avg Daily Trips</div>
+                    </div>
+                </div>
+
+                <h3>Bus Type Distribution</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bus Type</th>
+                            <th>Number of Routes</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Feeder (Local)</td>
+                            <td>233</td>
+                            <td>46.8%</td>
+                        </tr>
+                        <tr>
+                            <td>Trunk (Main)</td>
+                            <td>161</td>
+                            <td>32.3%</td>
+                        </tr>
+                        <tr>
+                            <td>Customized</td>
+                            <td>57</td>
+                            <td>11.4%</td>
+                        </tr>
+                        <tr>
+                            <td>Night</td>
+                            <td>30</td>
+                            <td>6.0%</td>
+                        </tr>
+                        <tr>
+                            <td>Express</td>
+                            <td>15</td>
+                            <td>3.0%</td>
+                        </tr>
+                        <tr>
+                            <td>Circular</td>
+                            <td>2</td>
+                            <td>0.4%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. Multivariate Analysis -->
+        <section id="analysis" class="section fade-in">
+            <div class="section-number">03</div>
+            <div class="section-content">
+                <h2>Multivariate Analysis</h2>
+
+                <h3>Correlation Analysis</h3>
+                <p>The correlation analysis reveals strong relationships between key operational variables. The most notable finding is the near-perfect correlation (0.998) between licensed buses and operational buses, indicating highly efficient fleet management. Additionally, moderate to strong correlations exist between route distance, operation time, and total trips, suggesting that longer routes naturally require more operational resources.</p>
+
+                <div class="chart-container">
+                    <img src="multivariate_eda_visualization.png" alt="Multivariate Analysis Visualization">
+                    <p class="chart-caption">Figure 1: Comprehensive Multivariate Analysis - Correlation heatmap, scatter plots by bus type, and distribution analyses</p>
+                </div>
+
+                <h3>Key Variable Relationships</h3>
+
+                <h4>Bus Count vs Route Distance</h4>
+                <p>Analysis shows distinct patterns across bus types. Trunk lines demonstrate the highest variation in both fleet size and route distance, reflecting their role as the backbone of Seoul's public transport system. Express buses, while fewer in number, tend to operate on the longest routes (average 54.1 km), serving inter-city connections.</p>
+
+                <h4>Total Trips vs Operation Time</h4>
+                <p>A positive correlation exists between operation time and total trips, with trunk and feeder lines showing the highest daily trip frequencies. Customized buses exhibit the lowest trip frequency, consistent with their on-demand service model.</p>
+            </div>
+        </section>
+
+        <!-- 4. Key Findings by Bus Type -->
+        <section id="findings" class="section fade-in">
+            <div class="section-number">04</div>
+            <div class="section-content">
+                <h2>Key Findings by Bus Type</h2>
+
+                <div class="type-grid">
+                    <div class="type-card">
+                        <h4>🔵 Trunk Lines (Blue Buses)</h4>
+                        <ul>
+                            <li>161 routes serving major corridors</li>
+                            <li>Highest fleet allocation (22.2 buses/route)</li>
+                            <li>Average route distance: 43.2 km</li>
+                            <li>High operational intensity: 97.4 trips/day</li>
+                            <li>Spare vehicle ratio: 4.4%</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card">
+                        <h4>🟢 Feeder Lines (Green Buses)</h4>
+                        <ul>
+                            <li>233 routes (46.8% of total network)</li>
+                            <li>Average fleet size: 14.7 buses</li>
+                            <li>Shorter routes (29.1 km average)</li>
+                            <li>Trip frequency: 96.1 trips/day</li>
+                            <li>Focus on local connectivity</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card">
+                        <h4>🔴 Express Routes</h4>
+                        <ul>
+                            <li>15 routes serving long-distance commuters</li>
+                            <li>Longest average distance: 54.1 km</li>
+                            <li>Moderate fleet: 11.1 buses/route</li>
+                            <li>Lower trip frequency: 56.1 trips/day</li>
+                            <li>Highest spare ratio: 16.3%</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card">
+                        <h4>🌙 Night Buses</h4>
+                        <ul>
+                            <li>30 routes providing late-night service</li>
+                            <li>Smallest fleet: 4.7 buses/route</li>
+                            <li>Extremely long routes: 75.4 km average</li>
+                            <li>Low trip frequency: 4.8 trips/day</li>
+                            <li>Highest efficiency per bus</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card">
+                        <h4>🟡 Customized Buses</h4>
+                        <ul>
+                            <li>57 routes for specific demand</li>
+                            <li>Minimal fleet: 1.3 buses/route</li>
+                            <li>Short routes: 17.2 km average</li>
+                            <li>Very low trips: 5.6 trips/day</li>
+                            <li>Exceptional spare ratio: 40.8%</li>
+                        </ul>
+                    </div>
+
+                    <div class="type-card">
+                        <h4>🔵 Circular Lines</h4>
+                        <ul>
+                            <li>2 routes with unique loop structure</li>
+                            <li>Fleet size: 11.0 buses/route</li>
+                            <li>Route distance: 16.0 km</li>
+                            <li>High trips: 108.0 trips/day</li>
+                            <li>Spare ratio: 6.7%</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <img src="multivariate_eda_detailed.png" alt="Detailed Analysis">
+                    <p class="chart-caption">Figure 2: Detailed Analysis - Bus type comparisons, company rankings, and operational pattern analysis</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Operational Efficiency Analysis -->
+        <section id="efficiency" class="section fade-in">
+            <div class="section-number">05</div>
+            <div class="section-content">
+                <h2>Operational Efficiency Analysis</h2>
+
+                <h3>Fleet Utilization</h3>
+                <p>The analysis reveals exceptional fleet utilization across all bus types, with an overall correlation of 0.998 between licensed and operational buses. This indicates that nearly all licensed vehicles are actively deployed, minimizing idle capacity. The small gap between licensed and operational buses (average 0.73 spare buses per route) demonstrates efficient resource allocation while maintaining necessary backup capacity.</p>
+
+                <h3>Service Frequency Optimization</h3>
+                <p>Service intervals vary systematically by bus type and route characteristics. Trunk and feeder lines maintain the shortest intervals (8-12 minutes minimum) during peak hours, while express and night buses operate with longer intervals (12-20 minutes) reflecting different demand patterns. The relationship between route distance and service interval shows a clear positive correlation, suggesting optimized scheduling based on operational constraints.</p>
+
+                <h3>Spare Vehicle Management</h3>
+                <p>Spare vehicle ratios vary significantly by bus type, reflecting different operational requirements. Customized buses maintain the highest ratio (40.8%) due to the critical nature of their specialized services. Trunk lines operate with minimal spare capacity (4.4%), relying on predictable demand patterns and robust maintenance schedules. This differentiation demonstrates sophisticated resource planning adapted to service characteristics.</p>
+            </div>
+        </section>
+
+        <!-- 6. Recommendations -->
+        <section id="recommendations" class="section fade-in">
+            <div class="section-number">06</div>
+            <div class="section-content">
+                <h2>Recommendations</h2>
+
+                <div class="highlight-box">
+                    <h3>Operational Optimization</h3>
+                    <ol>
+                        <li>Consider dynamic fleet allocation strategies for trunk lines during peak periods to address the 6-10 minute interval variations observed in the data</li>
+                        <li>Evaluate opportunities to increase night bus frequency on high-demand routes, particularly those showing consistent ridership patterns</li>
+                        <li>Review spare vehicle ratios for customized buses to identify potential efficiency gains without compromising service reliability</li>
+                    </ol>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Resource Planning</h3>
+                    <ol>
+                        <li>Implement predictive maintenance scheduling based on the strong correlation between route distance and operation time to minimize unplanned downtime</li>
+                        <li>Explore opportunities for inter-type fleet sharing during off-peak hours, particularly between feeder and trunk lines</li>
+                        <li>Consider gradual expansion of express routes to suburban areas showing population growth, based on the successful utilization patterns of existing routes</li>
+                    </ol>
+                </div>
+
+                <div class="highlight-box">
+                    <h3>Data-Driven Decision Making</h3>
+                    <ol>
+                        <li>Establish real-time monitoring systems to track the efficiency metrics identified in this analysis continuously</li>
+                        <li>Develop benchmarking frameworks comparing operational performance across similar route types to identify best practices</li>
+                        <li>Integrate passenger demand data with operational metrics to optimize service frequency and route planning dynamically</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. Appendix -->
+        <section id="appendix" class="section fade-in">
+            <div class="section-number">07</div>
+            <div class="section-content">
+                <h2>Appendix</h2>
+
+                <h3>Methodology</h3>
+                <p>This analysis employed multiple statistical and visualization techniques to examine relationships between operational variables:</p>
+                <ul>
+                    <li>Correlation analysis to identify relationships between continuous variables</li>
+                    <li>Distribution analysis using box plots and histograms to understand variability</li>
+                    <li>Multivariate scatter plots with categorical grouping by bus type</li>
+                    <li>Efficiency metrics calculation (trips per bus, spare vehicle ratios)</li>
+                    <li>Comparative analysis across bus types and operating companies</li>
+                </ul>
+
+                <h3>Data Quality Notes</h3>
+                <p>The dataset was thoroughly cleaned and validated before analysis. All numeric variables were checked for consistency and outliers were examined in context. The high correlation between licensed and operational buses (0.998) serves as a validation check, confirming data accuracy and consistency.</p>
+
+                <h3>Limitations</h3>
+                <p>This analysis represents a snapshot as of December 2025 and does not capture temporal variations throughout the year. Seasonal patterns, special events, and weekday/weekend differences are not reflected in this cross-sectional analysis. Future studies should incorporate time-series data to understand dynamic operational patterns.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p><strong>Data Source:</strong> TOPIS (Seoul Transport Operation and Information Service)</p>
+            <p><strong>Analysis Date:</strong> January 2026</p>
+            <p>&copy; 2026 Seoul Transport Analysis Team. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+
+        // Smooth scroll to section
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Fade in on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
