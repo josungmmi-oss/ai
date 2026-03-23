@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그렇게 사랑합니다 - 한용운</title>
+    <style>
+        /* 기본 여백 제거 및 폰트 설정 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #9CE79C; /* 시안과 유사한 연두색 배경 */
+            font-family: 'Gulim', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; /* 시안의 고전적인 느낌을 살리기 위해 굴림체 우선 적용 */
+            color: #000;
+        }
+
+        /* 전체 콘텐츠를 감싸는 컨테이너 */
+        .container {
+            max-width: 1000px; /* 너무 넓은 화면에서 텍스트가 과도하게 퍼지는 것을 방지 */
+            margin: 0 auto;
+            padding: 40px 30px;
+            box-sizing: border-box;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 상단 제목과 작가명 영역 */
+        .header {
+            position: relative;
+            margin-bottom: 80px; /* 아래 본문과의 간격 */
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .author {
+            position: absolute;
+            right: 10%; /* 오른쪽 끝에서 살짝 안쪽으로 배치 */
+            top: 50px; /* 제목보다 살짝 아래에 배치 */
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        /* 시 본문 영역 */
+        .poem-content {
+            display: flex;
+            flex-direction: column;
+            gap: 70px; /* 각 연 사이의 간격 */
+            flex-grow: 1;
+            padding-bottom: 50px;
+        }
+
+        /* 각 연의 공통 스타일 */
+        .stanza {
+            line-height: 1.5;
+            font-size: 16px;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* 1연 - 왼쪽 정렬 */
+        .stanza-1 {
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        /* 2연 - 중앙 정렬 */
+        .stanza-2 {
+            align-self: center;
+            text-align: center;
+        }
+
+        /* 3연 - 오른쪽 정렬 */
+        .stanza-3 {
+            align-self: flex-end;
+            text-align: right;
+            margin-right: 5%; /* 오른쪽 끝에서 약간의 여백 */
+        }
+
+        /* 모바일 등 작은 화면을 위한 반응형 처리 */
+        @media (max-width: 600px) {
+            .author {
+                right: 0;
+            }
+            .stanza-3 {
+                margin-right: 0;
+            }
+            .poem-content {
+                gap: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 상단 헤더 영역 -->
+        <div class="header">
+            <h2 class="title">그렇게 사랑합니다.</h2>
+            <div class="author">-한용운-</div>
+        </div>
+
+        <!-- 시 본문 영역 -->
+        <div class="poem-content">
+            <!-- 1연 -->
+            <p class="stanza stanza-1">
+                사랑한다는 사람앞에서는<br>
+                사랑 한다는말을 안합니다.<br>
+                안하는것이아니라<br>
+                못하는것이 사랑의 진실입니다.
+            </p>
+            
+            <!-- 2연 -->
+            <p class="stanza stanza-2">
+                잊어버려야 하겠다는 말은<br>
+                잊을수 없다는말입니다.<br>
+                정말 잊고싶을 때는 말이 없습니다.
+            </p>
+            
+            <!-- 3연 -->
+            <p class="stanza stanza-3">
+                헤어질때 돌아보지 않는것은<br>
+                너무 헤어지기 싫기때문입니다.<br>
+                그것은 헤어지는것이 아니라<br>
+                같이 있다는 말입니다.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
