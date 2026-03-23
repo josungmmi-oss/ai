@@ -17,6 +17,7 @@
       display: flex;
       justify-content: center;
       padding: 40px 20px 60px;
+      overflow-x: hidden;
     }
 
     .container {
@@ -81,8 +82,11 @@
     hr.full {
       border: none;
       border-top: 1px solid #aaaaaa;
-      margin: 4px 0;
-      width: 100%;
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      margin-right: calc(-50vw + 50%);
+      margin-top: 4px;
+      margin-bottom: 4px;
     }
   </style>
 </head>
