@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>조성미의 홈페이지</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+      font-family: '맑은 고딕', 'Malgun Gothic', '굴림', Gulim, sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 60px 20px 60px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    /* 제목 */
+    h1 {
+      font-size: 2.0rem;
+      font-weight: bold;
+      color: #007700;
+      letter-spacing: 0.02em;
+      margin-bottom: 30px;
+    }
+
+    /* 본문 단락 */
+    .intro {
+      font-size: 0.95rem;
+      color: #000000;
+      line-height: 2.0;
+      margin-bottom: 24px;
+      letter-spacing: 0.03em;
+    }
+
+    .contact {
+      font-size: 0.95rem;
+      color: #000000;
+      line-height: 2.0;
+      margin-bottom: 24px;
+      letter-spacing: 0.03em;
+    }
+
+    /* 이메일 링크 */
+    .contact a {
+      color: #cc0000;
+      text-decoration: underline;
+      font-style: italic;
+    }
+
+    /* 날짜 */
+    .date {
+      font-size: 0.92rem;
+      color: #000000;
+      margin-bottom: 14px;
+      letter-spacing: 0.04em;
+    }
+
+    /* hr 단일 5px 선 */
+    hr.single-line {
+      border: none;
+      border-top: 5px solid #0000cc;
+      width: 300px;
+      margin: 0 auto;
+    }
+
+    /* 하단 제목 + 선 묶음 */
+    .bottom-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    /* 하단 제목 */
+    h2 {
+      font-size: 1.45rem;
+      font-weight: bold;
+      color: #007700;
+      letter-spacing: 0.08em;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- 제목 -->
+    <h1>조성미의 홈페이지에 오신 것을 환영합니다.</h1>
+
+    <!-- 인사말 -->
+    <p class="intro">
+      멋진 홈페이지가 되도록 노력하겠습니다.<br>
+      부디 저의 홈페이지에서 좋은 시간 가지시기 바라며<br>
+      가실 때에 따뜻한 글한마디 남겨주시면 감사하겠습니다.
+    </p>
+
+    <!-- 연락처 -->
+    <p class="contact">
+      그리고 제 홈페이지에 궁금한 점이 있으시면<br>
+      <a href="mailto:xxxxx@naver.com"><em>xxxxx@naver.com</em></a>으로<br>
+      메일 보내주시기 바랍니다.
+    </p>
+
+    <!-- 날짜 -->
+    <p class="date">2020년 7월 30일</p>
+
+    <!-- 하단: 선 + 제목 + 선 -->
+    <div class="bottom-block">
+      <hr class="single-line">
+      <h2>KD컴퓨터학원 강의실에서</h2>
+      <hr class="single-line">
+    </div>
+
+  </div>
+</body>
+</html>
