@@ -16,9 +16,9 @@
 
         /* 전체 콘텐츠를 감싸는 컨테이너 */
         .container {
-            max-width: 1000px; /* 너무 넓은 화면에서 텍스트가 과도하게 퍼지는 것을 방지 */
+            max-width: 100%; /* 페이지 전체 너비 사용 */
             margin: 0 auto;
-            padding: 40px 30px;
+            padding: 40px 0; /* 좌우 여백 제거 */
             box-sizing: border-box;
             min-height: 100vh;
             display: flex;
@@ -40,7 +40,7 @@
 
         .author {
             position: absolute;
-            right: 10%; /* 오른쪽 끝에서 살짝 안쪽으로 배치 */
+            right: 0; /* 오른쪽 끝에 여백 없이 밀착 */
             top: 50px; /* 제목보다 살짝 아래에 배치 */
             font-size: 16px;
             letter-spacing: 1px;
@@ -79,17 +79,11 @@
         .stanza-3 {
             align-self: flex-end;
             text-align: right;
-            margin-right: 5%; /* 오른쪽 끝에서 약간의 여백 */
+            /* 여백 없이 오른쪽에 완전히 붙이기 위해 margin-right 제거 */
         }
 
         /* 모바일 등 작은 화면을 위한 반응형 처리 */
         @media (max-width: 600px) {
-            .author {
-                right: 0;
-            }
-            .stanza-3 {
-                margin-right: 0;
-            }
             .poem-content {
                 gap: 50px;
             }
