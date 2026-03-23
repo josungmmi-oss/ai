@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>절대반지는?</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+      font-family: '맑은 고딕', 'Malgun Gothic', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px 60px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      text-align: center;
+    }
+
+    /* 제목 */
+    h1 {
+      font-size: 1.45rem;
+      font-weight: bold;
+      color: #cc0000;
+      margin-bottom: 18px;
+      letter-spacing: 0.04em;
+    }
+
+    /* 공통 줄 */
+    .line {
+      display: block;
+      font-size: 0.97rem;
+      line-height: 2.1;
+      white-space: nowrap;
+    }
+
+    /* ── 색상 ── */
+    .c1 { color: #ff8800; }   /* 1줄: 오렌지 */
+    .c2 { color: #0055cc; }   /* 2줄: 블루 */
+    .c3 { color: #ffee00; }   /* 3줄: 밝은노랑 */
+    .c4 { color: #ff8800; }   /* 4줄: 오렌지 */
+    .c5 { color: #0055cc; }   /* 5줄: 블루 */
+    .c6 { color: #ffee00; }   /* 6줄: 밝은노랑 */
+    .c7 { color: #ff8800; }   /* 7줄: 오렌지 */
+    .c8 { color: #0055cc; }   /* 8줄: 블루 */
+    /* 출처: 초록 이탤릭 */
+    .source { color: #228822; font-style: italic; font-size: 0.88rem; }
+
+    /* ── 레이아웃 ── */
+    .line-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    /* 각 줄 + 밑줄 hr을 묶는 단위 */
+    .line-unit {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 글자 길이에 맞는 밑줄 hr (1~7줄) */
+    hr.under {
+      border: none;
+      border-top: 1px solid #aaaaaa;
+      margin: 0;
+      width: 100%;
+    }
+
+    /* 8줄 아래 전체 너비 hr */
+    hr.full {
+      border: none;
+      border-top: 1px solid #aaaaaa;
+      margin: 4px 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <h1>절대반지는?</h1>
+
+    <div class="line-wrap">
+
+      <!-- 1줄 -->
+      <div class="line-unit">
+        <span class="line c1">반지 세 개는 하늘 아래 요정왕들을 위한 것,</span>
+        <hr class="under">
+      </div>
+
+      <!-- 2줄 -->
+      <div class="line-unit">
+        <span class="line c2">일곱 개는 돌의 전당에 있는 난쟁이 군주들을 위한 것,</span>
+        <hr class="under">
+      </div>
+
+      <!-- 3줄 -->
+      <div class="line-unit">
+        <span class="line c3">아홉 개는 죽은 운명의 인간을 위한 것,</span>
+        <hr class="under">
+      </div>
+
+      <!-- 4줄 -->
+      <div class="line-unit">
+        <span class="line c4">하나는 암흑의 왕좌에 앉은 암흑 제왕을 위한 것,</span>
+        <hr class="under">
+      </div>
+
+      <!-- 5줄 -->
+      <div class="line-unit">
+        <span class="line c5">그곳은 망령들이 지배라는 모르도르의 땅,</span>
+        <hr class="under">
+      </div>
+
+      <!-- 6줄 -->
+      <div class="line-unit">
+        <span class="line c6">그 모든 반지를 다스릴 반지하나, 그 모든 반지를 찾기 위한 절대반지,</span>
+        <hr class="under">
+      </div>
+
+      <!-- 7줄 -->
+      <div class="line-unit">
+        <span class="line c7">그 모든 반지를 암흑 속에 가두기 위한 반지는 절대반지뿐,</span>
+        <hr class="under">
+      </div>
+
+      <!-- 8줄 + 전체 너비 hr -->
+      <span class="line c8">바로 망령들이 누워 있는 모르도르의 땅에</span>
+      <hr class="full">
+
+      <span class="line source">반지의 제왕 중에서….</span>
+
+    </div>
+
+  </div>
+
+
+</body>
+</html>
