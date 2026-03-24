@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>검색엔진(이미지)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #e9e9e9;
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      color: #111;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 26px;
+    }
+
+    .content {
+      width: 420px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    hr {
+      width: 200px;
+      height: 2px;
+      background: #b03a3a;
+      border: none;
+      margin: 0 auto;
+    }
+
+    .footer-line {
+      width: 400px;
+      height: 2px;
+      margin-top: 0;
+      margin-bottom: 14px;
+    }
+
+    .logo-area {
+      padding: 16px 0 18px;
+    }
+
+    .logo-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      line-height: 1;
+    }
+
+    .naver {
+      text-decoration: none;
+      display: inline-block;
+      font-size: 54px;
+      font-weight: 900;
+      color: #03c75a;
+      letter-spacing: -2px;
+    }
+
+    .daum {
+      text-decoration: none;
+      display: inline-flex;
+      font-size: 74px;
+      font-weight: 900;
+      letter-spacing: -6px;
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+    }
+
+    .daum span:nth-child(1) { color: #5b8def; }
+    .daum span:nth-child(2) { color: #a6bf00; }
+    .daum span:nth-child(3) { color: #f0b400; }
+    .daum span:nth-child(4) { color: #eb6b5f; }
+
+    .google {
+      text-decoration: none;
+      display: inline-block;
+      font-size: 68px;
+      font-weight: 500;
+      letter-spacing: -4px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .google span:nth-child(1) { color: #4285f4; }
+    .google span:nth-child(2) { color: #db4437; }
+    .google span:nth-child(3) { color: #f4b400; }
+    .google span:nth-child(4) { color: #4285f4; }
+    .google span:nth-child(5) { color: #0f9d58; }
+    .google span:nth-child(6) { color: #db4437; }
+
+    .text-link-wrap {
+      padding: 22px 0 18px;
+    }
+
+    .text-link {
+      font-size: 16px;
+      color: #5a2a7a;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    /* hover 효과 추가 */
+    .text-link:hover {
+      color: #000;
+      text-decoration: underline;
+    }
+
+    .footer-line {
+      width: 400px;
+      height: 2px;
+      margin-top: 0;
+      margin-bottom: 14px;
+    }
+
+    footer {
+      font-size: 18px;
+      color: #111;
+      padding-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .content {
+        width: 92%;
+      }
+
+      .footer-line {
+        width: 100%;
+      }
+
+      .naver {
+        font-size: 46px;
+      }
+
+      .daum {
+        font-size: 62px;
+      }
+
+      .google {
+        font-size: 56px;
+      }
+
+      footer {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="content">
+      <h1>검색엔진(이미지)</h1>
+
+      <hr>
+
+      <section class="logo-area">
+        <div class="logo-stack">
+          <a href="https://www.naver.com" target="_blank" class="naver">NAVER</a>
+
+          <a href="https://www.daum.net" target="_blank" class="daum" aria-label="DAUM">
+            <span>D</span><span>a</span><span>u</span><span>m</span>
+          </a>
+
+          <a href="https://www.google.com" target="_blank" class="google" aria-label="Google">
+            <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+          </a>
+        </div>
+      </section>
+
+      <hr>
+
+      <div class="text-link-wrap">
+        <a class="text-link" href="ai_search.html">[검색엔진(문자)로 가기]</a>
+      </div>
+
+      <hr class="footer-line">
+
+      <footer>
+        CopyWrite © 이호연 닷컴 All Right
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
