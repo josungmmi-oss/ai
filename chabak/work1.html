@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>모바일 온보딩 화면</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      background: #efefef;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      background: #efefef;
+      overflow: hidden;
+    }
+
+    .screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 80px 24px 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .title {
+      color: #3a4d88;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.45;
+      letter-spacing: -0.7px;
+      margin-bottom: 18px;
+    }
+
+    .title .light {
+      color: #7f98cf;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: #9aacd6;
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.55;
+      letter-spacing: -0.4px;
+    }
+
+    .visual-wrap {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 24px;
+      margin-bottom: 30px;
+    }
+
+    .bg-blob {
+      position: absolute;
+      left: 0;
+      right: -40px;
+      bottom: 24px;
+      height: 290px;
+      background: #d9dcea;
+      border-top-left-radius: 48% 34%;
+      border-top-right-radius: 28% 18%;
+      border-bottom-left-radius: 14% 10%;
+      border-bottom-right-radius: 0;
+      z-index: 1;
+    }
+
+    .bear-scene {
+      position: relative;
+      z-index: 2;
+      width: 255px;
+      height: 320px;
+    }
+
+    .idea {
+      position: absolute;
+      left: 68px;
+      top: 18px;
+      width: 34px;
+      height: 34px;
+      background: #f7da67;
+      border: 2px solid #425072;
+      border-radius: 50% 50% 46% 46%;
+      box-shadow: inset -4px -6px 0 rgba(255,255,255,0.22);
+    }
+
+    .idea::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      bottom: -8px;
+      width: 10px;
+      height: 10px;
+      background: #8d7446;
+      border: 2px solid #425072;
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+    }
+
+    .idea::after {
+      content: "";
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 0, #f3c953 0 2px, transparent 2px),
+        radial-gradient(circle at 100% 35%, #f3c953 0 2px, transparent 2px),
+        radial-gradient(circle at 92% 82%, #f3c953 0 2px, transparent 2px),
+        radial-gradient(circle at 10% 36%, #f3c953 0 2px, transparent 2px),
+        radial-gradient(circle at 20% 86%, #f3c953 0 2px, transparent 2px);
+      pointer-events: none;
+    }
+
+    .hat {
+      position: absolute;
+      left: 62px;
+      top: 56px;
+      width: 116px;
+      height: 40px;
+      background: #f4dc71;
+      border: 2px solid #3e4d72;
+      border-radius: 50% / 60%;
+      transform: rotate(-3deg);
+      box-shadow: inset 0 -7px 0 #e8ca56;
+    }
+
+    .hat::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: -10px;
+      height: 16px;
+      background: #f4dc71;
+      border: 2px solid #3e4d72;
+      border-bottom: none;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    .hat::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 10px;
+      height: 3px;
+      background: rgba(66, 80, 114, 0.5);
+      border-radius: 999px;
+      box-shadow: 0 8px 0 rgba(66, 80, 114, 0.5);
+    }
+
+    .ear-left,
+    .ear-right {
+      position: absolute;
+      top: 66px;
+      width: 24px;
+      height: 24px;
+      background: #4e83d5;
+      border: 2px solid #324a78;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .ear-left { left: 76px; }
+    .ear-right { left: 138px; }
+
+    .head {
+      position: absolute;
+      left: 82px;
+      top: 82px;
+      width: 88px;
+      height: 90px;
+      background: linear-gradient(180deg, #4b83d9 0%, #3d73c8 100%);
+      border: 2px solid #324a78;
+      border-radius: 47% 47% 44% 44%;
+      z-index: 2;
+    }
+
+    .face {
+      position: absolute;
+      left: 20px;
+      top: 26px;
+      width: 48px;
+      height: 46px;
+      background: #f2f4fa;
+      border-radius: 50%;
+    }
+
+    .eye-left,
+    .eye-right {
+      position: absolute;
+      top: 29px;
+      width: 5px;
+      height: 7px;
+      background: #1c1e24;
+      border-radius: 50%;
+    }
+
+    .eye-left { left: 18px; }
+    .eye-right { right: 18px; }
+
+    .nose {
+      position: absolute;
+      left: 39px;
+      top: 38px;
+      width: 8px;
+      height: 6px;
+      background: #1d1f24;
+      border-radius: 50%;
+    }
+
+    .mouth {
+      position: absolute;
+      left: 35px;
+      top: 45px;
+      width: 16px;
+      height: 10px;
+      border-bottom: 2px solid #1d1f24;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .body {
+      position: absolute;
+      left: 47px;
+      top: 150px;
+      width: 145px;
+      height: 142px;
+      background: linear-gradient(180deg, #4983dd 0%, #346ec3 100%);
+      border: 2px solid #324a78;
+      border-radius: 42% 42% 38% 38%;
+      z-index: 1;
+    }
+
+    .belly {
+      position: absolute;
+      left: 42px;
+      top: 28px;
+      width: 62px;
+      height: 88px;
+      background: #eef1f9;
+      border-radius: 50%;
+    }
+
+    .arm-left,
+    .arm-right {
+      position: absolute;
+      background: linear-gradient(180deg, #4983dd 0%, #356fc5 100%);
+      border: 2px solid #324a78;
+      z-index: 2;
+    }
+
+    .arm-left {
+      left: 34px;
+      top: 170px;
+      width: 54px;
+      height: 102px;
+      border-radius: 48px;
+      transform: rotate(15deg);
+    }
+
+    .arm-right {
+      left: 166px;
+      top: 170px;
+      width: 42px;
+      height: 88px;
+      border-radius: 40px;
+      transform: rotate(-23deg);
+      transform-origin: bottom left;
+    }
+
+    .leg-left,
+    .leg-right {
+      position: absolute;
+      width: 54px;
+      height: 86px;
+      background: linear-gradient(180deg, #4a84dc 0%, #356fc5 100%);
+      border: 2px solid #324a78;
+      border-radius: 30px;
+      bottom: 8px;
+      z-index: 1;
+    }
+
+    .leg-left {
+      left: 54px;
+      transform: rotate(12deg);
+    }
+
+    .leg-right {
+      left: 151px;
+      transform: rotate(-8deg);
+    }
+
+    .paw-left,
+    .paw-right {
+      position: absolute;
+      width: 28px;
+      height: 34px;
+      background: #eef1f9;
+      border: 2px solid #324a78;
+      border-radius: 48% 48% 52% 52%;
+      bottom: 4px;
+      z-index: 3;
+    }
+
+    .paw-left { left: 67px; transform: rotate(10deg); }
+    .paw-right { left: 163px; transform: rotate(-8deg); }
+
+    .paw-left::before,
+    .paw-right::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      bottom: 8px;
+      width: 14px;
+      height: 10px;
+      background: #b9c7eb;
+      border-radius: 50%;
+      box-shadow:
+        -5px -8px 0 -2px #b9c7eb,
+        0 -10px 0 -2px #b9c7eb,
+        5px -8px 0 -2px #b9c7eb;
+    }
+
+    .phone {
+      position: absolute;
+      left: 182px;
+      top: 178px;
+      width: 24px;
+      height: 46px;
+      background: linear-gradient(180deg, #7b89a8 0%, #5c6987 100%);
+      border: 2px solid #3a4868;
+      border-radius: 6px;
+      transform: rotate(10deg);
+      z-index: 4;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 5px;
+      width: 8px;
+      height: 2px;
+      background: #c8d1e8;
+      border-radius: 2px;
+    }
+
+    .phone::after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      bottom: 4px;
+      width: 4px;
+      height: 4px;
+      background: #c8d1e8;
+      border-radius: 50%;
+    }
+
+    .bottom-area {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #b9b9b9;
+      transition: 0.25s ease;
+    }
+
+    .dot.active {
+      background: #5873b7;
+      transform: scale(1.05);
+    }
+
+    .start-btn {
+      width: 100%;
+      height: 56px;
+      border: none;
+      border-radius: 14px;
+      background: #5a74ba;
+      color: white;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.2s ease;
+      box-shadow: 0 8px 20px rgba(90, 116, 186, 0.18);
+    }
+
+    .start-btn:active {
+      transform: scale(0.985);
+    }
+
+    .start-btn:hover {
+      filter: brightness(0.98);
+    }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      bottom: 106px;
+      transform: translateX(-50%) translateY(10px);
+      min-width: 220px;
+      max-width: calc(100% - 48px);
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: rgba(58, 77, 136, 0.95);
+      color: #fff;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+      z-index: 10;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (min-width: 431px) {
+      .app {
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        height: 812px;
+        max-height: 96vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="screen">
+      <div class="content">
+        <h1 class="title">
+          차박,<br />
+          어디로 <span class="light">떠나야 할지 모르겠나요?</span>
+        </h1>
+        <p class="subtitle">
+          지도기반 위치 앱 및 키워드 검색으로<br />
+          내가 원하는 장소를 한번에
+        </p>
+      </div>
+
+      <div class="visual-wrap">
+        <div class="bg-blob"></div>
+        <div class="bear-scene" aria-hidden="true">
+          <div class="idea"></div>
+          <div class="ear-left"></div>
+          <div class="ear-right"></div>
+          <div class="hat"></div>
+          <div class="head">
+            <div class="face"></div>
+            <div class="eye-left"></div>
+            <div class="eye-right"></div>
+            <div class="nose"></div>
+            <div class="mouth"></div>
+          </div>
+          <div class="body">
+            <div class="belly"></div>
+          </div>
+          <div class="arm-left"></div>
+          <div class="arm-right"></div>
+          <div class="leg-left"></div>
+          <div class="leg-right"></div>
+          <div class="paw-left"></div>
+          <div class="paw-right"></div>
+          <div class="phone"></div>
+        </div>
+      </div>
+
+      <div class="bottom-area">
+        <div class="dots" aria-label="페이지 인디케이터">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+        <button class="start-btn" id="startBtn">시작하기</button>
+      </div>
+    </section>
+
+    <div class="toast" id="toast">시작 버튼이 눌렸습니다.</div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const toast = document.getElementById('toast');
+
+    startBtn.addEventListener('click', () => {
+      toast.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1800);
+    });
+  </script>
+</body>
+</html>
