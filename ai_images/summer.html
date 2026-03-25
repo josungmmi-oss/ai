@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여름의 계절</title>
+    <style>
+        /* 웹페이지 전체 배경 및 폰트 설정 */
+        body {
+            background-color: #a6bce3; /* 시안과 유사한 연한 파란색 배경 */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+        }
+
+        /* 전체 콘텐츠를 감싸는 래퍼 */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* 상단 제목 스타일 */
+        h1 {
+            color: #4b5e82; /* 짙은 남색 계열 */
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0 0 25px 0;
+            letter-spacing: 1px;
+        }
+
+        /* 중앙 이미지와 선을 감싸는 컨테이너 */
+        .image-container {
+            width: 600px; /* 시안과 유사한 비율을 위한 고정 너비 */
+            max-width: 90%; /* 모바일 화면 대응 */
+        }
+
+        /* 위아래 구분선 스타일 */
+        .divider {
+            border: none;
+            height: 4px; /* 선의 두께 */
+            background-color: #484343; /* 짙은 회갈색 */
+            margin: 0;
+            width: 100%;
+        }
+
+        /* 바다 이미지 스타일 */
+        .image-container img {
+            width: 100%;
+            display: block;
+            margin: 12px 0; /* 선과 이미지 사이의 여백 */
+            object-fit: cover;
+        }
+
+        /* 하단 링크 컨테이너 */
+        .link-container {
+            margin-top: 20px;
+        }
+
+        /* 하단 텍스트 링크 스타일 */
+        .link-container a {
+            color: #333333;
+            text-decoration: none;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        /* 링크에 마우스를 올렸을 때의 효과 */
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-wrapper">
+        <!-- 상단 제목 -->
+        <h1>여름의 계절</h1>
+        
+        <div class="image-container">
+            <!-- 상단 굵은 선 -->
+            <hr class="divider">
+            
+            <!-- 중앙 해변 이미지 (Unsplash 무료 이미지 사용) -->
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="여름 바다 풍경">
+            
+            <!-- 하단 굵은 선 -->
+            <hr class="divider">
+        </div>
+
+        <!-- 하단 메인화면 이동 링크 -->
+        <div class="link-container">
+            <a href="#">[메인화면으로 이동]</a>
+        </div>
+    </div>
+
+</body>
+</html>

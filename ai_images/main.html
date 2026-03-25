@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국의 사계</title>
+    <style>
+        /* 기본 여백 제거 및 배경색, 기본 글꼴 설정 */
+        body {
+            margin: 0;
+            padding: 80px 0; /* 상하 여백을 주어 화면 중간쯤 위치하도록 설정 */
+            background-color: #dff080; /* 시안과 유사한 연두색 배경 */
+            color: #000000; /* 모든 문단의 기본 글자를 검정색으로 설정 */
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            text-align: center; /* 전체 텍스트 중앙 정렬 */
+        }
+
+        /* 콘텐츠를 담는 중앙 컨테이너 */
+        .container {
+            width: 500px; /* 구분선의 너비를 제한하기 위해 설정 */
+            margin: 0 auto; /* 가로 중앙 정렬 */
+        }
+
+        /* 메인 제목 스타일 */
+        h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 2px; /* 자간을 살짝 넓혀 시안과 비슷하게 맞춤 */
+        }
+
+        /* 가로 구분선 스타일 */
+        hr {
+            border: none;
+            border-top: 4px solid #333333; /* 시안처럼 약간 두껍고 진한 회색/검정 선 */
+            margin: 20px 0;
+        }
+
+        /* 리스트 기본 스타일 제거 */
+        ul {
+            list-style-type: none; /* 불릿(점) 제거 */
+            padding: 0;
+            margin: 30px 0;
+        }
+
+        /* 리스트 항목 간격 설정 */
+        li {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+
+        /* 링크(a 태그) 기본 스타일 */
+        a {
+            color: #000000; /* 링크 글자색을 파란색에서 검정색으로 변경 */
+            text-decoration: none; /* 기본 밑줄 제거 */
+            padding-bottom: 2px; /* 밑줄과 글자 사이의 간격 확보 */
+        }
+
+        /* 링크 호버(마우스를 올렸을 때) 스타일 */
+        a:hover {
+            color: #000000;
+            /* 검정 라인으로 호버되도록 설정 (밑줄 방식) */
+            text-decoration: underline; 
+            text-underline-offset: 4px; /* 밑줄 위치 조정 */
+            text-decoration-thickness: 1px; /* 밑줄 두께 */
+        }
+
+        /* 하단 카피라이트 텍스트 스타일 */
+        .footer {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 제목 -->
+        <h1>한국의 사계</h1>
+        
+        <!-- 상단 구분선 -->
+        <hr>
+        
+        <!-- 계절 리스트 및 링크 -->
+        <ul>
+            <li><a href="./spring.html">봄의 계절</a></li>
+            <li><a href="./summer.html">여름의 계절</a></li>
+            <li><a href="./fall.html">가을의 계절</a></li>
+            <li><a href="./winter.html">겨울의 계절</a></li>
+        </ul>
+        
+        <!-- 하단 구분선 -->
+        <hr>
+        
+        <!-- 푸터 -->
+        <p class="footer">Copyright&copy;JSM 2026 All right Reserved.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>봄의 계절</title>
+    <style>
+        /* 기본 여백 제거 및 배경색 설정 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fcbbf1; /* 시안과 유사한 연한 핑크색 배경 */
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            text-align: center; /* 전체 콘텐츠 가운데 정렬 */
+            
+            /* 화면 전체를 사용하여 수직/수평 완벽한 중앙 정렬을 위한 Flexbox 설정 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; 
+        }
+
+        /* 전체 콘텐츠를 감싸는 컨테이너 */
+        .container {
+            width: 100%;
+            padding: 20px; /* 화면이 작아졌을 때 요소가 브라우저 끝에 붙지 않도록 최소 여백 추가 */
+            box-sizing: border-box;
+        }
+
+        /* 메인 제목 스타일 */
+        h1 {
+            color: #bd0076; /* 진한 자홍색(마젠타) 텍스트 */
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 0;
+            margin-bottom: 30px;
+            letter-spacing: 2px; /* 글자 간격 약간 넓게 */
+        }
+
+        /* 이미지와 상하단 선을 감싸는 영역 */
+        .image-section {
+            width: 600px; /* 이미지 너비 */
+            max-width: 90%; /* 모바일 환경을 위한 최대 너비 제한 */
+            margin: 0 auto; /* 가운데 정렬 */
+            border-top: 4px solid #333333; /* 상단 굵은 선 */
+            border-bottom: 4px solid #333333; /* 하단 굵은 선 */
+            padding: 15px 0; /* 선과 이미지 사이의 간격 */
+        }
+
+        /* 이미지 스타일 */
+        .image-section img {
+            width: 100%; /* 부모 요소(.image-section)의 너비에 맞춤 */
+            display: block; /* 이미지 하단 여백 제거 */
+            height: auto;
+        }
+
+        /* 하단 링크 텍스트 스타일 */
+        .footer-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #333333; /* 어두운 회색 텍스트 */
+            text-decoration: none; /* 기본 밑줄 제거 */
+            font-size: 16px;
+        }
+
+        /* 마우스를 올렸을 때 밑줄 표시 */
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 상단 제목 -->
+        <h1>봄의 계절</h1>
+
+        <!-- 상하단 선이 있는 이미지 영역 -->
+        <div class="image-section">
+            <!-- 시안과 유사한 느낌의 벚꽃 이미지(Unsplash 무료 이미지)를 사용했습니다. -->
+            <!-- 실제 이미지를 적용하려면 src 안의 주소를 로컬 이미지 파일 경로로 변경하시면 됩니다. -->
+            <img src="https://images.unsplash.com/photo-1522383225653-ed111181a951?q=80&w=800&auto=format&fit=crop" alt="벚꽃 이미지">
+        </div>
+
+        <!-- 하단 이동 링크 -->
+        <a href="#" class="footer-link">[메인화면으로 이동]</a>
+    </div>
+
+</body>
+</html>
