@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Claude Header - Desktop Fixed</title>
+    <style>
+        /* 기본 리셋 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* 브라우저 기본 폰트 설정 */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            /* 반응형 절대 방지: 최소 너비를 강제로 고정 */
+            min-width: 1200px;
+            background-color: #000000; /* 시안과 유사하게 하단 배경은 검정색으로 임시 지정 */
+        }
+
+        /* 헤더 전체를 감싸는 영역 */
+        .header-wrapper {
+            background-color: #ffffff;
+            width: 100%;
+            min-width: 1200px; /* 창을 줄여도 헤더 배경이 끊기지 않도록 고정 */
+        }
+
+        /* 실제 헤더 콘텐츠가 들어가는 고정 너비 영역 */
+        .header-content {
+            width: 1200px; /* 고정 너비 할당 (반응형 배제) */
+            height: 80px;
+            margin: 0 auto; /* 중앙 정렬 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        /* 1. 로고 영역 */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        /* 로고 아이콘 (SVG 형상화) */
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            fill: #d36a4a; /* 시안의 주황/갈색 톤 */
+        }
+
+        /* 로고 텍스트 */
+        .logo-text {
+            font-family: "Georgia", "Times New Roman", serif;
+            font-size: 30px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: -0.5px;
+        }
+
+        /* 2. 네비게이션 영역 */
+        .nav-area {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            height: 100%;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: #222222;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 80px; /* 헤더 전체 높이에 맞춤 */
+            transition: color 0.2s ease-in-out;
+        }
+
+        /* 5px 두께의 Bottom Stroke 설정 */
+        .nav-item::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0; /* nav-item의 height가 80px이므로 헤더 맨 바닥에 위치 */
+            width: 100%; /* 글자 너비(간격)만큼 꽉 채움 */
+            height: 5px; /* 요청하신 5px 두께 */
+            background-color: #d36a4a; /* 오렌지색 */
+            transform: scaleX(0); /* 기본 상태에서는 보이지 않음 */
+            transition: transform 0.2s ease-in-out;
+            transform-origin: center; /* 가운데서부터 양옆으로 나타나는 효과 */
+        }
+
+        .nav-item:hover {
+            color: #d36a4a; 
+        }
+
+        .nav-item:hover::after {
+            transform: scaleX(1); /* 호버 시 밑줄 표시 */
+        }
+
+        /* 3. 우측 액션 버튼 영역 */
+        .action-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            height: 42px;
+            padding: 0 24px;
+            border-radius: 21px; /* 둥근 알약 형태 */
+            border: none;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+        }
+
+        /* 매장찾기 버튼 */
+        .btn-dark {
+            background-color: #333333;
+            color: #ffffff;
+            transition: background-color 0.2s;
+        }
+
+        .btn-dark:hover {
+            background-color: #1a1a1a;
+        }
+
+        /* 글로드마켓 버튼 */
+        .btn-orange {
+            background-color: #d67a5d;
+            color: #ffffff;
+            transition: background-color 0.2s;
+        }
+
+        .btn-orange:hover {
+            background-color: #c46445;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 영역 시작 -->
+    <header class="header-wrapper">
+        <div class="header-content">
+            
+            <!-- 왼쪽: 로고 -->
+            <div class="logo-area">
+                <svg class="logo-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 별 모양 아이콘 패스 -->
+                    <path d="M12 1L12.6 8.5L18.5 4L14.5 9.5L22 12L14.5 14.5L18.5 20L12.6 15.5L12 23L11.4 15.5L5.5 20L9.5 14.5L2 12L9.5 9.5L5.5 4L11.4 8.5L12 1Z" />
+                </svg>
+                <span class="logo-text">Claude</span>
+            </div>
+
+            <!-- 중앙: 네비게이션 메뉴 -->
+            <nav class="nav-area">
+                <a href="#" class="nav-item">ABOUT</a>
+                <a href="#" class="nav-item">PRODUCT</a>
+                <a href="#" class="nav-item">EDUCATION</a>
+                <a href="#" class="nav-item">PARTNERSHIP</a>
+                <a href="#" class="nav-item">WHAT'S NEW</a>
+                <a href="#" class="nav-item">SUPPORT</a>
+            </nav>
+
+            <!-- 오른쪽: 버튼 -->
+            <div class="action-area">
+                <button class="btn btn-dark">매장찾기</button>
+                <button class="btn btn-orange">글로드마켓</button>
+            </div>
+
+        </div>
+    </header>
+    <!-- 헤더 영역 끝 -->
+
+</body>
+</html>
