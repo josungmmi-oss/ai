@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+body{
+    font-family: "맑은 고딕","malgun gothic", sans-serif;
+}
+table{
+    border: 1px solid #000;
+    width: 400px;
+    margin: auto;
+    border-spacing: 0;
+    border-collapse: 0;
+    /*여백*/
+    margin-bottom: 40px;
+
+
+}
+th{
+    border: 1px solid #000;
+    height: 50px;
+}
+td{
+    border: 1px solid #000;
+    height: 50px;
+    text-align: center;
+    width: 130px;
+}
+.th2{
+    width: 130px;
+
+}
+.td2{
+    width: 270px;
+}
