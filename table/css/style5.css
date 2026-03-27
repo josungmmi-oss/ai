@@ -1,0 +1,55 @@
+@charset "utf-8";
+
+body{
+    font-family: "맑은 고딕","malgun gothic", sans-serif;
+    text-align: center;
+    color: #333;
+}
+
+table{
+    border: 2px solid #000;
+    width: 700px;
+    height: 40px;
+    margin: 30px;
+    border-spacing: 0;
+
+    
+}
+th{
+border: 1px solid #7e7e7e;
+border-collapse: collapse;
+}
+tr{
+    border: 1px solid #7e7e7e;
+    height: 40px;
+    border-collapse: collapse;
+    
+}
+td{
+    border: 1px solid #7e7e7e;    
+    height: 40px;
+    border-collapse: collapse;
+}
+
+.sp{
+    width: 200px;
+}
+.oo{
+    width: 80px;
+}
+
+em{
+    color: gray;
+}
+.ig{
+    background: #c7e3f7;
+    height: 28px;
+}
+.time{
+    background: rgb(145, 188, 223);
+}
+.ocn{
+    color: #eff7fa;
+    background: #55687a;
+}
+
