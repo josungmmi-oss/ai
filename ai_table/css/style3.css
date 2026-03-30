@@ -1,0 +1,148 @@
+@charset "utf-8";
+
+body{
+    font-family: "맑은고딕", "malgun gothic", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: "Malgun Gothic", sans-serif;
+  background: #fff;
+}
+
+.sales-table {
+  width: 400px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.sales-table th,
+.sales-table td {
+  width: 100px;
+  border: 1px solid #333;
+  padding: 12px 0;
+}
+
+.sales-table th {
+  font-weight: bold;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: "Malgun Gothic", sans-serif;
+  background: #fff;
+}
+
+/* 첫번째 테이블 */
+.sales-table {
+  width: 400px;
+  border-collapse: collapse;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sales-table th,
+.sales-table td {
+  width: 100px;
+  border: 1px solid #333;
+  padding: 12px 0;
+}
+
+/* 두번째 테이블 */
+.site-table {
+  width: 400px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.site-table th,
+.site-table td {
+  border: 1px solid #333;
+  padding: 12px 10px;
+}
+
+.site-table .col1 {
+  width: 130px;
+}
+
+.site-table .col2 {
+  width: 270px;
+}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: "Malgun Gothic", sans-serif;
+  background: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 40px;
+  font-family: "Malgun Gothic", sans-serif;
+  background: #fff;
+}
+
+/* 첫번째 테이블 */
+.sales-table {
+  width: 400px;
+  border-collapse: collapse;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sales-table th,
+.sales-table td {
+  width: 100px;
+  border: 1px solid #333;
+  padding: 12px 0;
+}
+
+/* 두번째 테이블 */
+.site-table {
+  width: 400px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.site-table th,
+.site-table td {
+  border: 1px solid #333;
+  padding: 12px 10px;
+}
+
+.site-table .col1 {
+  width: 130px;
+}
+
+.site-table .col2 {
+  width: 270px;
+}
+
+/* 링크 기본 스타일 */
+.site-table a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* 호버 시 파란 글씨 + 밑줄 */
+.site-table a:hover {
+  color: blue;
+  text-decoration: underline;
+}

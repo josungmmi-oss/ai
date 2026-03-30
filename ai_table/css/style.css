@@ -1,0 +1,84 @@
+@charset "utf-8";
+
+body{
+    font-family: "맑은고딕", "malgun gothic", sans-serif;
+}
+table {
+  width: 600px;
+  margin: 50px auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 15px;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+table {
+  width: 600px;
+  margin: 50px auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 15px;
+}
+
+
+table {
+  width: 600px;
+  margin: 50px auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 15px;
+}
+
+th {
+  background-color: orange;
+}
+
+tr:nth-child(2) td {
+  background-color: #fff9c4;
+}
+
+tr:nth-child(3) td {
+  background-color: #dcedc8;
+}
+table {
+  width: 600px;
+  margin: 50px auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 15px;
+}
+
+th {
+  background-color: orange;
+}
+
+tr:nth-child(2) td {
+  background-color: #fff9c4;
+}
+
+tr:nth-child(3) td {
+  background-color: #dcedc8;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+  background-color: skyblue;
+}
