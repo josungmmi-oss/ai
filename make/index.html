@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIEL - 감성 뷰티 브랜드</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --lumiel-ivory: #F8F3EE;
+            --lumiel-blush: #EFCFD3;
+            --lumiel-rose: #C98F96;
+            --lumiel-cocoa: #4B3A38;
+            --lumiel-sage: #C9D3C4;
+            --border-radius-main: 24px; /* Default large corner round */
+            --border-radius-card: 16px; /* Card corner round */
+        }
+
+        body {
+            /* Changed to 'Pretendard' first for modern feel across all platforms, 
+               'Noto Sans KR' as backup for Korean text. */
+            font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--lumiel-ivory);
+            color: var(--lumiel-cocoa);
+            line-height: 1.6;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scrollIndicator {
+            0%, 100% { height: 40px; }
+            50% { height: 64px; }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: rgba(248, 243, 238, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(75, 58, 56, 0.1);
+        }
+
+        .header-container {
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif; /* Keeps serif for logo only */
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            color: var(--lumiel-cocoa);
+            text-decoration: none;
+        }
+
+        nav {
+            display: flex;
+            gap: 3rem;
+            /* Explicitly set modern sans-serif for nav */
+            font-family: 'Pretendard', sans-serif;
+            font-weight: 400;
+        }
+
+        nav a {
+            color: var(--lumiel-cocoa);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--lumiel-rose);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--lumiel-cocoa);
+            transition: color 0.3s;
+        }
+
+        .icon-btn:hover {
+            color: var(--lumiel-rose);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding-top: 5rem;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            /* General container rounding might affect overflow, 
+               but for hero, object-fit: cover is already doing its job.
+               We keep it sharp to fill the screen or potentially round 
+               it if the design becomes more contained.
+               For this design, the hero bg fills the top of the viewport. */
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(248, 243, 238, 0.5), var(--lumiel-ivory));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            max-width: 1200px;
+            /* Use sans-serif for modern feel */
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800; /* Use Pretendard/Noto's thickest weight */
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 span.cormorant {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--lumiel-rose);
+            color: white;
+            padding: 1.2rem 3.5rem; /* Slightly larger padding for modern look */
+            border-radius: 50px; /* Fully rounded buttons */
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background-color: #b57e86;
+            transform: scale(1.05);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 40px;
+            background-color: rgba(75, 58, 56, 0.3);
+            animation: scrollIndicator 2s infinite ease-in-out;
+        }
+
+        /* Section Common */
+        section {
+            padding: 8rem 3rem; /* Slightly more padding for modern spaciousness */
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .section-label {
+            font-size: 0.875rem; /* Larger label font */
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--lumiel-rose);
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            /* Now also modern sans-serif */
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: 0.05em;
+        }
+
+        .section-title span.cormorant {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        .container {
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+
+        /* Products Section */
+        .products {
+            background-color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Wider min for cards */
+            gap: 4rem; /* More space */
+        }
+
+        .product-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            /* General card rounding */
+            border-radius: var(--border-radius-card); 
+            background-color: var(--lumiel-ivory);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+            /* Border radius can be set here too, or just on container with overflow hidden */
+            /* border-radius: var(--border-radius-card); */ 
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-name {
+            /* Now also modern sans-serif */
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .product-name span.cormorant {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            font-size: 1.75rem;
+        }
+
+        .product-desc {
+            font-size: 1rem; /* Regular size */
+            font-weight: 400;
+            color: rgba(75, 58, 56, 0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            color: var(--lumiel-rose);
+            font-weight: 500;
+            font-size: 1.125rem;
+            padding-top: 0.5rem;
+        }
+
+        /* Brand Story Section */
+        .brand-story {
+            background-color: var(--lumiel-ivory);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: center;
+        }
+
+        .story-image {
+            aspect-ratio: 4/5;
+            /* Larger main rounding */
+            border-radius: var(--border-radius-main);
+            overflow: hidden;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-content {
+            padding: 2rem 0;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .story-content h2 {
+            /* Now modern sans-serif */
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+        }
+
+        .story-content h2 span.cormorant {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5rem;
+            color: rgba(75, 58, 56, 0.8);
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .btn-secondary {
+            display: inline-block;
+            border: 2px solid var(--lumiel-rose);
+            color: var(--lumiel-rose);
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: all 0.3s;
+            font-family: 'Pretendard', sans-serif;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--lumiel-rose);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Texture Section */
+        .texture {
+            background-color: white;
+        }
+
+        .texture-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .texture-card {
+            position: relative;
+            aspect-ratio: 4/5;
+            /* Main rounding */
+            border-radius: var(--border-radius-main);
+            overflow: hidden;
+            background-color: var(--lumiel-ivory);
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .texture-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .texture-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2.5rem;
+            background: linear-gradient(to top, rgba(75, 58, 56, 0.7), transparent);
+        }
+
+        .texture-overlay h3 {
+            /* Modern sans-serif */
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 0.05em;
+        }
+
+        .texture-overlay h3 span.cormorant {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            font-size: 2rem;
+        }
+
+        .texture-overlay p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            font-weight: 400;
+            margin-top: 0.5rem;
+        }
+
+        .ingredients {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem;
+            margin-top: 5rem;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .ingredient {
+            text-align: center;
+        }
+
+        .ingredient-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            background-color: var(--lumiel-blush);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ingredient-icon-inner {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--lumiel-rose);
+        }
+
+        .ingredient h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .ingredient p {
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: rgba(75, 58, 56, 0.6);
+        }
+
+        /* Reviews Section */
+        .reviews {
+            background-color: var(--lumiel-ivory);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns for wider cards */
+            gap: 3rem;
+            margin-bottom: 5rem;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .review-card {
+            background-color: white;
+            padding: 3rem;
+            /* General card rounding */
+            border-radius: var(--border-radius-card); 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer shadow */
+            transition: box-shadow 0.3s;
+        }
+
+        .review-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .star {
+            width: 18px; /* Slightly larger stars */
+            height: 18px;
+            fill: var(--lumiel-rose);
+        }
+
+        .review-text {
+            font-size: 1.125rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            min-height: 5rem;
+        }
+
+        .review-author {
+            font-size: 1rem;
+            font-weight: 500;
+            color: rgba(75, 58, 56, 0.8);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Pretendard', sans-serif; /* Modern stat number */
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--lumiel-rose);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 400;
+            color: rgba(75, 58, 56, 0.7);
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background-color: white;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .newsletter-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .newsletter h2 {
+            /* Now modern sans-serif */
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+        }
+
+        .newsletter h2 span.cormorant {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+
+        .newsletter p {
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: rgba(75, 58, 56, 0.7);
+            margin-bottom: 4rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1.2rem 2rem; /* Larger padding */
+            border: 1px solid rgba(75, 58, 56, 0.2);
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 400;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .newsletter-input:focus {
+            border-color: var(--lumiel-rose);
+        }
+
+        .newsletter-disclaimer {
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: rgba(75, 58, 56, 0.5);
+            margin-top: 2rem;
+        }
+
+        .success-message {
+            color: var(--lumiel-rose);
+            padding: 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--lumiel-cocoa);
+            color: white;
+            padding: 6rem 3rem 4rem; /* More spacious footer */
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Cormorant Garamond', serif; /* Keeps serif for brand name */
+            font-size: 2.25rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .footer-section h4 {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem; /* Larger gap */
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 300;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1280px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 3rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr; /* Switch reviews to single column sooner for wider cards */
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .texture-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ingredients {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 3rem;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 1rem 1.5rem;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 6rem 1.5rem; /* Still spacious on mobile */
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .story-image,
+            .texture-card {
+                /* Slightly less rounding on smaller screens */
+                border-radius: var(--border-radius-card); 
+            }
+
+            .ingredients {
+                grid-template-columns: 1fr;
+            }
+
+            .review-card {
+                padding: 2rem; /* Less padding on mobile */
+            }
+
+            .review-text {
+                font-size: 1rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input {
+                width: 100%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .social-links,
+            .footer-links {
+                justify-content: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">LUMIEL</a>
+            <nav>
+                <a href="#products">제품</a>
+                <a href="#story">브랜드 스토리</a>
+                <a href="#review">리뷰</a>
+            </nav>
+            <div class="header-actions">
+                <button class="icon-btn" aria-label="Shopping bag">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 01-8 0"/>
+                    </svg>
+                </button>
+                <button class="icon-btn mobile-menu-btn" aria-label="Menu">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <line x1="3" y1="12" x2="21" y2="12"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <line x1="3" y1="18" x2="21" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-bg">
+                <img src="https://images.unsplash.com/photo-1605474082506-21d31d9d95e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWF1dHklMjBtb2RlbCUyMHNvZnQlMjBwaW5rJTIwZ2xvd3xlbnwxfHx8fDE3NzQ4MzcxODl8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Hero">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content fade-in-up">
+                <h1>부드럽게 빛나는<br><span class="cormorant">당신을 위한 뷰티</span></h1>
+                <p>당신의 일상에 부드럽게 스며드는 뷰티 루틴</p>
+                <a href="#products" class="btn-primary">제품 둘러보기</a>
+            </div>
+            <div class="scroll-indicator"></div>
+        </section>
+
+        <section id="products" class="products">
+            <div class="container">
+                <div class="section-header">
+                    <p class="section-label">Best Sellers</p>
+                    <h2 class="section-title">인기 제품</h2>
+                </div>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1763986668655-413d55a24f6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZXJ1bSUyMGJvdHRsZSUyMGNvc21ldGljfGVufDF8fHx8MTc3NDgzNzE5MHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Glow Serum">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><span class="cormorant">Glow</span> 세럼</h3>
+                            <p class="product-desc">은은한 빛을 더하는 집중 세럼</p>
+                            <p class="product-price">68,000원</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1765964492963-b0aa8c172431?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwaW5rJTIwY3JlYW0lMjBqYXJ8ZW58MXx8fHwxNzc4ODM3MTkwfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Soft Cream">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><span class="cormorant">Soft</span> 크림</h3>
+                            <p class="product-desc">피부를 감싸는 부드러운 보습</p>
+                            <p class="product-price">52,000원</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="./images/1.jpg" alt="Pure Essence">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name"><span class="cormorant">Pure</span> 에센스</h3>
+                            <p class="product-desc">맑고 깨끗한 피부 결정</p>
+                            <p class="product-price">45,000원</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="story" class="brand-story">
+            <div class="container">
+                <div class="story-grid">
+                    <div class="story-image">
+                        <img src="https://images.unsplash.com/photo-1622766255812-cd0ccb95d764?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzb2Z0JTIwZmVtaW5pbmUlMjBiZWF1dHl8ZW58MXx8fHwxNzc4ODM3MTkxfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Brand Story">
+                    </div>
+                    <div class="story-content">
+                        <p class="section-label">Our Philosophy</p>
+                        <h2>피부를 꾸미는 것이 아니라,<br><span class="cormorant">본연의 빛을 끌어내는 것</span></h2>
+                        <p>LUMIEL은 '빛'과 '부드러움'에서 영감을 받았습니다. 우리는 화려한 변화보다 은은한 빛을, 강한 커버보다 자연스러운 결을 추구합니다.</p>
+                        <p>일상 속 가장 편안한 순간, 자신을 돌보는 시간에 함께하는 브랜드가 되고자 합니다. 당신의 피부가 가진 고유한 아름다움을, 가장 건강하고 빛나는 상태로 지켜드립니다.</p>
+                        <p>맑고 깨끗한 성분, 부드럽고 감각적인 텍스처, 그리고 매일 사용하고 싶어지는 감성까지. LUMIEL과 함께 하루를 더 부드럽게 빛내보세요.</p>
+                        <a href="#" class="btn-secondary">브랜드 스토리 더 보기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="texture">
+            <div class="container">
+                <div class="section-header">
+                    <p class="section-label">Texture & Ingredients</p>
+                    <h2 class="section-title">피부 위에 머무는<br><span class="cormorant">조용한 아름다움</span></h2>
+                    <p style="color: rgba(75, 58, 56, 0.7); max-width: 800px; margin: 1rem auto 0; font-size: 1.125rem; font-weight: 400;">
+                        자연에서 찾은 깨끗한 성분과 부드러운 텍스처가 만나 피부에 편안하게 스며듭니다.
+                    </p>
+                </div>
+                <div class="texture-grid">
+                    <div class="texture-card">
+                        <img src="https://images.unsplash.com/photo-1629732047847-50219e9c5aef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxza2luY2FyZSUyMGNyZWFtJTIwdGV4dHVyZXxlbnwxfHx8fDE3NzQ4MzcxODl8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Cream Texture">
+                        <div class="texture-overlay">
+                            <h3>Silky Texture</h3>
+                            <p>실크처럼 부드러운 발림</p>
+                        </div>
+                    </div>
+                    <div class="texture-card">
+                        <img src="https://images.unsplash.com/photo-1587655041993-842e00c06409?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxuYXR1cmFsJTIwbGlnaHQlMjBza2luY2FyZXxlbnwxfHx8fDE3NzQ4MzcxOTB8MA&ixlib=rb-4.1.0&q=80&w=1080" alt="Natural Ingredients">
+                        <div class="texture-overlay">
+                            <h3>Pure Ingredients</h3>
+                            <p>자연에서 찾은 순수한 성분</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ingredients">
+                    <div class="ingredient">
+                        <div class="ingredient-icon">
+                            <div class="ingredient-icon-inner"></div>
+                        </div>
+                        <h4>히알루론산</h4>
+                        <p>깊은 수분 공급</p>
+                    </div>
+                    <div class="ingredient">
+                        <div class="ingredient-icon">
+                            <div class="ingredient-icon-inner"></div>
+                        </div>
+                        <h4>세라마이드</h4>
+                        <p>피부 장벽 강화</p>
+                    </div>
+                    <div class="ingredient">
+                        <div class="ingredient-icon">
+                            <div class="ingredient-icon-inner"></div>
+                        </div>
+                        <h4>나이아신아마이드</h4>
+                        <p>맑은 피부 톤</p>
+                    </div>
+                    <div class="ingredient">
+                        <div class="ingredient-icon">
+                            <div class="ingredient-icon-inner"></div>
+                        </div>
+                        <h4>스쿠알란</h4>
+                        <p>부드러운 보호막</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="review" class="reviews">
+            <div class="container">
+                <div class="section-header">
+                    <p class="section-label">Customer Reviews</p>
+                    <h2 class="section-title">고객님들의 경험</h2>
+                </div>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="stars">
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="review-text">"바르는 순간 하루가 조금 더 부드러워지는 기분이에요"</p>
+                        <p class="review-author">지은 님</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars">
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        </div>
+                        <p class="review-text">"텍스처가 정말 실크 같아요. 촉촉하지만 끈적이지 않아서 좋습니다"</p>
+                        <p class="review-author">수현 님</p>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">98%</div>
+                        <p class="stat-label">재구매율</p>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">15,000+</div>
+                        <p class="stat-label">만족한 고객</p>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">4.9</div>
+                        <p class="stat-label">평균 평점</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="newsletter">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>당신의 뷰티 루틴에<br><span class="cormorant">가장 먼저 닿을 소식</span></h2>
+                    <p>신제품 출시 소식과 특별한 혜택을 가장 먼저 받아보세요</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input 
+                            type="email" 
+                            class="newsletter-input" 
+                            placeholder="이메일을 입력해주세요"
+                            required
+                            id="emailInput"
+                        >
+                        <button type="submit" class="btn-primary">구독하기</button>
+                    </form>
+                    <div id="successMessage" class="success-message" style="display: none;">
+                        ✓ 구독해 주셔서 감사합니다!
+                    </div>
+                    <p class="newsletter-disclaimer">언제든지 구독을 취소하실 수 있습니다</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>LUMIEL</h3>
+                    <p>일상 속 가장 부드럽게 빛나는<br>나를 위한 뷰티 브랜드</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">전체 제품</a></li>
+                        <li><a href="#">베스트셀러</a></li>
+                        <li><a href="#">신제품</a></li>
+                        <li><a href="#">세트 상품</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="#">브랜드 스토리</a></li>
+                        <li><a href="#">성분 이야기</a></li>
+                        <li><a href="#">지속가능성</a></li>
+                        <li><a href="#">고객 후기</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">고객센터</a></li>
+                        <li><a href="#">배송 및 반품</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">문의하기</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2026 LUMIEL. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="YouTube">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"/>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                        </svg>
+                    </a>
+                </div>
+                <div class="footer-links">
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">이용약관</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Newsletter Form
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = this;
+            const successMessage = document.getElementById('successMessage');
+            const emailInput = document.getElementById('emailInput');
+            
+            form.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            setTimeout(function() {
+                form.style.display = 'flex';
+                successMessage.style.display = 'none';
+                emailInput.value = '';
+            }, 3000);
+        });
+
+        // Smooth Scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.product-card, .review-card, .ingredient, .stat').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>
