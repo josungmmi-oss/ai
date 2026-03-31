@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회사소개 - 이지스퍼블리싱</title>
+    <style>
+        /* 기본 페이지 배경 및 폰트 설정 */
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 50px 20px;
+            margin: 0;
+            color: #333;
+        }
+
+        /* 요청하신 div box 스타일 */
+        .company-box {
+            width: 640px; /* 가로 640px */
+            padding: 36px 16px; /* 여백 36px(상하) 16px(좌우) */
+            background-color: #ffffff;
+            border: 1px dashed #ccc; /* 테두리를 점선(dashed)으로 변경, 굵기 1px */
+            border-radius: 0; /* 코너 라운드 0으로 변경 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            box-sizing: border-box; /* 패딩을 너비에 포함하여 정확히 640px 유지 */
+        }
+
+        /* 큰제목 (h1) */
+        h1 {
+            font-size: 28px;
+            color: #111;
+            margin-top: 0;
+            margin-bottom: 20px; /* 큰제목과 부제목 사이 간격 20px */
+        }
+
+        /* 부제목 (h2) */
+        h2 {
+            font-weight: normal; /* 폰트 굵기를 한 단계 줄임 (기본 bold -> normal) */
+            font-size: 24px; /* 글자 크기 한 단계 크게 변경 (20px -> 24px) */
+            color: #ffffff;
+            background-color: #000000;
+            padding: 14px 16px; /* 위아래 14px, 텍스트가 시작되는 내부 좌우 여백 16px */
+            margin-top: 0;
+            margin-bottom: 20px; /* 단락 간격 통일을 위해 20px로 수정 */
+            width: 600px; /* 전체 길이를 600px로 수정 */
+            box-sizing: border-box; /* 패딩을 너비에 포함하여 정확히 600px 유지 */
+            margin-left: 4px; /* 내부 공간(608px)의 중앙에 오도록 위치 조정 */
+            display: block; /* 지정된 넓이를 차지하도록 설정 */
+        }
+
+        /* 문단 (p) */
+        p {
+            line-height: 26px; /* 행간을 기존 1.6(24px)에서 26px로 2px 넓힘 */
+            margin-bottom: 20px; /* 단락 간격 통일을 위해 20px로 수정 */
+            font-size: 15px;
+            word-break: keep-all; /* 한국어 줄바꿈 자연스럽게 처리 */
+            text-align: justify; /* 양쪽 정렬 추가 */
+        }
+
+        /* 미션 제목을 위한 작은 제목 (h3) */
+        h3 {
+            font-size: 24px; /* 글자 크기 한 단계 크게 변경 (20px -> 24px) */
+            color: #0204fa; /* 요청하신 파란색으로 변경 */
+            font-weight: bold; /* 글씨 굵게 설정 */
+            margin-top: 0; /* 단락 간격 통일을 위해 0으로 수정 */
+            margin-bottom: 20px; /* 단락 간격 통일을 위해 20px로 수정 */
+        }
+
+        /* 마지막 요소의 하단 여백 제거 (박스 하단 여백 유지용) */
+        .company-box > *:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 메인 div box -->
+    <div class="company-box">
+        
+        <h1>회사소개</h1>
+        
+        <h2>"사람을 구체적으로 도와주는 책"</h2>
+        
+        <p>이지스퍼블리싱(주)의 책에는 <span style="color: red; font-weight: bold;">‘사람들에게 구체적으로 도움이 되는 책’을 만든다는 출판 가치가 담겨 있습니다.</span></p>
+        
+        <p>
+            2010년 5월 출범한 이지스퍼블리싱(주)는 크게 두 영역의 책을 출간합니다.
+            IT 실용 도서와 학습 분야 도서입니다. IT 교재와 사진 책 등 실용서는 이지스퍼블리싱 브랜드로, 학습과 자녀교육 도서는 이지스에듀 브랜드로 출간하고 있습니다.
+        </p>
+        
+        <h3>이지스퍼블리싱의 미션</h3>
+        <p>
+            사람에게 구체적으로 <span style="color: #0204fa; font-weight: bold;">도움</span>을 주는 책<br>
+            우리는 열심히 사는 사람들에게 도움이 되고 싶습니다.<br>
+            우리는 책을 출간하기 전에 질문할 것입니다.<br>
+            "이 책이 사람들에게 도움이 됩니까?"
+        </p>
+        
+        <p>
+            <span style="color: #0204fa;">정보의 지름길을 만들어 빠르게 원하는 곳으로 가도록 도와주는 책. 
+            손에 잡히는 이익을 얻을 수 있도록 도움이 되는 책을 만들고 싶습니다.</span>
+        </p>
+
+    </div>
+
+</body>
+</html>
