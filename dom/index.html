@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM객체 제어</title>
+</head>
+<body>
+    <ul id="list" > <!--class를 넣어도돼!-->
+        <lavel for="" id="">출생월</lavel>
+        <select name="" id="month">
+
+        </select>
+    </ul>
+    <script>
+        //ul을 자바로 가져올때 메모리 변수 기억
+        let list =document.getElementById("list")
+        console.log(list)
+        let output = "";
+        //지역변수
+        for(let i = 1; i <= 100; i++) {
+        output = output + `<li>data${i}</li>`;
+        }
+        list.innerHTML=output;
+        let month = document.getElementById(month);
+        console.log(month);
+        //지역변수
+        let output2 = "";
+        for(let i = 1;i<=12;i++) {
+        output2 = output2 +  `<option>${i}월</option>`
+        }
+        month.innerHTML=output2
+
+    </script>
+    
+
+<script>
+    // 출생년도 select 가져오기
+    let year = document.getElementById("year");
+    console.log(year);
+
+    let output3 = "";
+    for (let i = 2026; i >= 1900; i--) {
+        output3 = output3 + `<option>${i}년</option>`;
+    }
+    year.innerHTML = output3;
+
+    // 출생월 select 가져오기
+    let month = document.getElementById("month");
+    console.log(month);
+
+    let output4 = "";
+    for (let i = 1; i <= 12; i++) {
+        output4 = output4 + `<option>${i}월</option>`;
+    }
+    month.innerHTML = output4;
+
+    // 출생일 select 가져오기
+    let day = document.getElementById("day");
+    console.log(day);
+
+    let output5 = "";
+    for (let i = 1; i <= 31; i++) {
+        output5 = output5 + `<option>${i}일</option>`;
+    }
+    day.innerHTML = output5;
+</script>
+</body>
+</html>
