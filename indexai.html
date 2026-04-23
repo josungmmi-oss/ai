@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>패밀리 사이트</title>
+  <style>
+    @charset "utf-8";
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+      color: #222;
+      background: #f4f7fb;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    button {
+      border: none;
+      background: none;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      background: linear-gradient(180deg, #2d63b5 0%, #1f4b8f 100%);
+    }
+
+    footer {
+      background: #f8f8f8;
+      border-top: 1px solid #d9e2e8;
+    }
+
+    .inner {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .family-site {
+      position: relative;
+      width: 220px;
+    }
+
+    .family-button {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #cdd6dd;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #333;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .family-button:hover {
+      border-color: #9fb4c4;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .family-button:focus-visible {
+      outline: 2px solid #2d63b5;
+      outline-offset: 2px;
+    }
+
+    .family-button .label {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .family-button .arrow {
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid #555;
+      border-bottom: 2px solid #555;
+      transform: rotate(45deg);
+      transition: transform 0.25s ease;
+      margin-top: -4px;
+    }
+
+    .family-site.open .family-button .arrow {
+      transform: rotate(-135deg);
+      margin-top: 4px;
+    }
+
+    .family-list {
+      position: absolute;
+      left: 0;
+      bottom: calc(100% + 10px);
+      width: 100%;
+      background: #fff;
+      border: 1px solid #cdd6dd;
+      border-radius: 12px;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s ease;
+      pointer-events: none;
+    }
+
+    .family-site.open .family-list {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .family-list li + li {
+      border-top: 1px solid #eef2f5;
+    }
+
+    .family-list a {
+      display: block;
+      padding: 13px 16px;
+      font-size: 14px;
+      color: #444;
+      transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+    }
+
+    .family-list a:hover,
+    .family-list a:focus-visible {
+      background: #2d63b5;
+      color: #fff;
+      padding-left: 20px;
+      outline: none;
+    }
+
+    @media (max-width: 768px) {
+      .inner {
+        justify-content: center;
+        padding: 24px 16px;
+      }
+
+      .family-site {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main></main>
+
+    <footer>
+      <div class="inner">
+        <div class="family-site" id="familySite">
+          <button
+            type="button"
+            class="family-button"
+            id="familyButton"
+            aria-expanded="false"
+            aria-controls="familyList"
+          >
+            <span class="label">IBK 관련사이트</span>
+            <span class="arrow" aria-hidden="true"></span>
+          </button>
+
+          <ul class="family-list" id="familyList">
+            <li><a href="https://www.winclass.com" target="_blank" rel="noopener noreferrer">WINCLASS</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">글로벌BK</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">IBK경제연구소</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">IBK블로그</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">IBK사보</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">IBK스포츠단</a></li>
+            <li><a href="#" target="_blank" rel="noopener noreferrer">IBK인도네시아은행</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const familySite = document.getElementById("familySite");
+    const familyButton = document.getElementById("familyButton");
+
+    function openFamilySite() {
+      familySite.classList.add("open");
+      familyButton.setAttribute("aria-expanded", "true");
+    }
+
+    function closeFamilySite() {
+      familySite.classList.remove("open");
+      familyButton.setAttribute("aria-expanded", "false");
+    }
+
+    function toggleFamilySite() {
+      if (familySite.classList.contains("open")) {
+        closeFamilySite();
+      } else {
+        openFamilySite();
+      }
+    }
+
+    familyButton.addEventListener("click", function (event) {
+      event.stopPropagation();
+      toggleFamilySite();
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!familySite.contains(event.target)) {
+        closeFamilySite();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeFamilySite();
+      }
+    });
+  </script>
+</body>
+</html>
