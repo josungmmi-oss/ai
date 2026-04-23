@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>애니메이션 메서드</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 12px 8px;
+      background: #efefef;
+      font-family: Arial, sans-serif;
+      color: #111;
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    ol {
+      margin: 0 0 18px 24px;
+      padding-left: 18px;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .btn-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    button {
+      padding: 4px 10px;
+      border: 1px solid #999;
+      background: #f7f7f7;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #aaa;
+      margin: 12px 0 10px;
+    }
+
+    .box1,
+    .box2 {
+        width: 648px;
+      display: flex;
+      gap: 20px;
+      border: 4px solid #bdbdbd;
+      margin-bottom: 48px;
+      padding: 0;
+      background: transparent;
+      position: relative;
+      align-items: flex-start;
+    }
+
+    .box1 {
+      margin-right: 0;
+    }
+
+    .slot {
+      width: 200px;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      flex: 0 0 200px;
+    }
+
+    .ani-slot {
+      overflow: visible;
+    }
+
+    .panel {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      font-size: 16px;
+      color: #000;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    .fade-box {
+      background: red;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1s, visibility 1s;
+    }
+
+    .fade-toggle-box {
+      background: green;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1s, visibility 1s;
+    }
+
+    .slide-box {
+      background: #f3c400;
+      transform-origin: top;
+      transform: scaleY(1);
+      opacity: 1;
+      transition: transform 1s, opacity 1s;
+    }
+
+    .slide-toggle-box {
+      background: #c8ff00;
+      transform-origin: top;
+      transform: scaleY(1);
+      opacity: 1;
+      transition: transform 1s, opacity 1s;
+    }
+
+    .ani-box {
+      background: #1eb6dd;
+      left: 0;
+      top: 0;
+      transition: left 1s;
+      z-index: 10;
+    }
+
+    .hidden-fade {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .hidden-slide {
+      transform: scaleY(0);
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>[ jQuery 애니메이션 관련 메서드 ]</h1>
+
+  <ol>
+    <li>fadeIn()</li>
+    <li>fadeOut()</li>
+    <li>fadeToggle()</li>
+    <li>slideUp()</li>
+    <li>slideDown()</li>
+    <li>slideToggle()</li>
+    <li>animate()</li>
+  </ol>
+
+  <div class="btn-wrap">
+    <button id="btn1">fadeIn</button>
+    <button id="btn2">fadeOut</button>
+    <button id="btn3">fadeToggle</button>
+    <button id="btn4">slideUp</button>
+    <button id="btn5">slideDown</button>
+    <button id="btn6">slideToggle</button>
+    <button id="btn7">ani1</button>
+    <button id="btn8">ani2</button>
+  </div>
+
+  <hr />
+
+  <div class="box1">
+    <div class="slot">
+      <div class="panel fade-box" id="fadeBox">fadeIn / fadeOut</div>
+    </div>
+
+    <div class="slot">
+      <div class="panel fade-toggle-box" id="fadeToggleBox">fadeToggle</div>
+    </div>
+  </div>
+
+  <div class="box2">
+    <div class="slot">
+      <div class="panel slide-box" id="slideBox">slideUp / slideDown</div>
+    </div>
+
+    <div class="slot">
+      <div class="panel slide-toggle-box" id="slideToggleBox">slideToggle</div>
+    </div>
+
+    <div class="slot ani-slot">
+      <div class="panel ani-box" id="aniBox">Animation</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("btn1").addEventListener("click", function () {
+      let fadeBox = document.getElementById("fadeBox");
+      fadeBox.classList.remove("hidden-fade");
+    });
+
+    document.getElementById("btn2").addEventListener("click", function () {
+      let fadeBox = document.getElementById("fadeBox");
+      fadeBox.classList.add("hidden-fade");
+    });
+
+    document.getElementById("btn3").addEventListener("click", function () {
+      let fadeToggleBox = document.getElementById("fadeToggleBox");
+      fadeToggleBox.classList.toggle("hidden-fade");
+    });
+
+    document.getElementById("btn4").addEventListener("click", function () {
+      let slideBox = document.getElementById("slideBox");
+      slideBox.classList.add("hidden-slide");
+    });
+
+    document.getElementById("btn5").addEventListener("click", function () {
+      let slideBox = document.getElementById("slideBox");
+      slideBox.classList.remove("hidden-slide");
+    });
+
+    document.getElementById("btn6").addEventListener("click", function () {
+      let slideToggleBox = document.getElementById("slideToggleBox");
+      slideToggleBox.classList.toggle("hidden-slide");
+    });
+
+    document.getElementById("btn7").addEventListener("click", function () {
+      let aniBox = document.getElementById("aniBox");
+      aniBox.style.left = "300px";
+    });
+
+    document.getElementById("btn8").addEventListener("click", function () {
+      let aniBox = document.getElementById("aniBox");
+      aniBox.style.left = "0px";
+    });
+  </script>
+</body>
+</html>
